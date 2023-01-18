@@ -7,6 +7,7 @@ plugins {
 }
 
 apply from: "../share_dependencies.gradle"
+apply from: "../share_navigation_dependencies.gradle"
 
 android {
     namespace 'id.myone.book'
@@ -45,8 +46,4 @@ dependencies {
     implementation project(path: ':core')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 }
