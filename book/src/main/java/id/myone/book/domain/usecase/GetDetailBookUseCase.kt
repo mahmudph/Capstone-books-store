@@ -8,9 +8,10 @@ package id.myone.book.domain.usecase
 import id.myone.core.domain.entity.BookDetail
 import id.myone.core.domain.repository.Repository
 import id.myone.core.domain.utils.Result
+import kotlinx.coroutines.flow.Flow
 
 class GetDetailBookUseCase(private val repository: Repository) {
-    suspend operator fun invoke(bookId: String):Result<BookDetail> {
+    operator fun invoke(bookId: String): Flow<Result<BookDetail>> {
         return repository.getDetailBook(bookId)
     }
 }
