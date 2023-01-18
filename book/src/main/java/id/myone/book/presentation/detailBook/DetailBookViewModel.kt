@@ -5,23 +5,10 @@
 
 package id.myone.book.presentation.detailBook
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import id.myone.book.domain.usecase.GetDetailBookUseCase
-import id.myone.core.domain.entity.BookDetail
-import id.myone.core.domain.utils.Result
-import kotlinx.coroutines.launch
 
-class DetailBookViewModel(private val getDetailBookUseCase: GetDetailBookUseCase): ViewModel() {
-    private val _bookDetail = MutableLiveData<Result<BookDetail>>()
-    val bookDetail: LiveData<Result<BookDetail>> = _bookDetail
+class DetailBookViewModel(private val getDetailBookUseCase: GetDetailBookUseCase) : ViewModel() {
 
-    fun loadBookDetail(bookId: String) {
-        viewModelScope.launch {
-            val result = getDetailBookUseCase(bookId)
-            _bookDetail.postValue(result)
-        }
-    }
+    fun loadBookDetail(bookId: String) = getDetailBookUseCase(bookId).asLiveData()
 }
