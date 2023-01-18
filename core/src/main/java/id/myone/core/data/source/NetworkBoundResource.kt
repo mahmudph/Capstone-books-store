@@ -8,9 +8,14 @@ import kotlinx.coroutines.flow.*
 abstract class NetworkBoundResource<ResultType, RequestType>(private val mExecutors: AppExecutors) {
 
     private val result: Flow<Result<ResultType>> = flow {
+
+        emit(Result.Loading())
+
         val dBounce = loadFromDB().first()
 
         if (shouldFetch(dBounce)) {
+
+            emit(Result.Loading())
 
             when (val apiResponse = createCall().first()) {
 

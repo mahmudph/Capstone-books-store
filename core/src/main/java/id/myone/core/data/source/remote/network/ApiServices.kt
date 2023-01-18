@@ -14,9 +14,9 @@ interface ApiServices {
     @GET("/1.0/new")
     suspend fun getNewListBooks(): ListBooksResponse
 
-    @GET("/1.0/books/:id")
+    @GET("/1.0/books/{id}")
     suspend fun getDetailBook(@Path("id") id: String): DetailBooksResponse
 
-    @GET("/1.0/search/:query/:page")
-    suspend fun searchBook(@Path("query") query: String, page: String): ListBooksResponse
+    @GET("/1.0/search/{query}/{page}")
+    suspend fun searchBook(@Path("query") query: String,@Path("page") page: String): ListBooksResponse
 }

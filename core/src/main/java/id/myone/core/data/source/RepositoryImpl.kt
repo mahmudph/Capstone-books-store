@@ -16,7 +16,10 @@ import id.myone.core.domain.repository.Repository
 import id.myone.core.domain.utils.Result
 import id.myone.core.utils.AppExecutors
 import id.myone.core.utils.DataMapper
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import java.net.SocketException
 
@@ -69,16 +72,17 @@ class RepositoryImpl(
         }
     }
 
-    override suspend fun getDetailBook(id: String): Result<BookDetail> {
-        return try {
+    override fun getDetailBook(id: String): Flow<Result<BookDetail>> = flow {
+        try {
+            emit(Result.Loading())
             val response = remoteDataSource.getDetailBook(id)
-            Result.Success(DataMapper.transformDetailBookToDetailBookDomain(response))
+            emit(Result.Success(DataMapper.transformDetailBookToDetailBookDomain(response)))
         } catch (e: SocketException) {
-            Result.Error(message = noInternetConnectionError)
+            emit(Result.Error(message = noInternetConnectionError))
         } catch (e: Exception) {
-            Result.Error(message = defaultErrorMessage)
+            emit(Result.Error(message = defaultErrorMessage))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override suspend fun setFavoriteBook(book: FavoriteEntity): Result<String> {
         return try {
