@@ -52,6 +52,9 @@ object DataMapper {
     }
 
     fun transformDetailBookToDetailBookDomain(bookDetail: DetailBooksResponse): BookDetail {
+
+        val pdfDomain = if (bookDetail.pdf != null) transformPdfModelToDomain(bookDetail.pdf) else null
+
         return BookDetail(
             authors = bookDetail.authors,
             desc = bookDetail.desc,
@@ -60,7 +63,7 @@ object DataMapper {
             isbn10 = bookDetail.isbn10,
             isbn13 = bookDetail.isbn13,
             pages = bookDetail.pages,
-            pdf = transformPdfModelToDomain(bookDetail.pdf),
+            pdf = pdfDomain,
             price = bookDetail.price,
             publisher = bookDetail.publisher,
             rating = bookDetail.rating,

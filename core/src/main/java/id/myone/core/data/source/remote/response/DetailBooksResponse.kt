@@ -21,7 +21,7 @@ data class DetailBooksResponse(
     @SerializedName("pages")
     val pages: String,
     @SerializedName("pdf")
-    val pdf: PdfModel,
+    val pdf: PdfModel?,
     @SerializedName("price")
     val price: String,
     @SerializedName("publisher")
