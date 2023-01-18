@@ -5,24 +5,26 @@
 
 package id.myone.book.presentation.search
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import id.myone.book.domain.usecase.SearchBookUseCase
-import id.myone.core.domain.entity.Book
-import id.myone.core.domain.utils.Result
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.*
 
+
+@OptIn(ExperimentalCoroutinesApi::class)
 class SearchViewModel(private val searchBookUseCase: SearchBookUseCase) : ViewModel() {
 
-    private val resultData = MutableLiveData<Result<List<Book>>>()
-    val bookList: LiveData<Result<List<Book>>> = resultData
+    private var page = "1"
+    private val queryChannel = MutableStateFlow("")
 
-    fun searchBook(query: String, page: String = "0") {
-        viewModelScope.launch {
-            val result = searchBookUseCase(query, page)
-            resultData.postValue(result)
-        }
+    @OptIn(FlowPreview::class)
+    val searchBookResult = queryChannel.debounce(300).distinctUntilChanged().mapLatest {
+        searchBookUseCase(it)
+    }.asLiveData()
+
+    fun searchBook(query: String, pageIn: String = "1") {
+        page = pageIn
+        queryChannel.value = query
     }
 }
