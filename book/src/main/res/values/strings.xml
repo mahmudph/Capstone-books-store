@@ -1,6 +1,25 @@
 <resources>
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="book_placeholder">Book Placeholder</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search_book">Search Book</string>
-    <string name="search_description">What type of book do you curious most, you can find that information in this search</string>
+    <string name="search_description">What type of book do you curious most, you can find that information in this search form field</string>
+
+    <string name="data_not_found">Data Not Found</string>
+    <string name="data_not_found_desc">I\'m sorry we can not find books match with what you want, try with different title of the book.</string>
+    <string name="add_favorite">Favorite</string>
+    <string name="publisher">Publisher</string>
+    <string name="isbn10">Isbn10</string>
+    <string name="isbn13">Isbn13</string>
+    <string name="pages">Pages</string>
+    <string name="year">Year</string>
+    <string name="ratting">Ratting</string>
+    <string name="url">Url</string>
+    <string name="description">Description</string>
+
+    <string name="pages_count">%1$s Pages</string>
+    <string name="author_by">By %1$s</string>
+    <string name="back">back</string>
+    <string name="gathering">Hi...</string>
+    <string name="welcome">Welcome back to the book store.</string>
 </resources>

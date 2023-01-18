@@ -32,8 +32,7 @@
             android:maxLines="1"
             android:paddingHorizontal="8dp"
             android:paddingVertical="12dp"
-            android:textColorHighlight="@color/white"
-            android:textSize="14sp">
+            android:textColorHighlight="@color/white">
 
             <requestFocus />
         </EditText>

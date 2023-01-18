@@ -1,10 +1,414 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/refresh_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.detailBook.DetailBookFragment">
 
-    <include layout="@layout/loading" android:id="@+id/loading"/>
+    <include
+        android:id="@+id/loading"
+        layout="@layout/loading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <include
+        android:id="@+id/information"
+        layout="@layout/information"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/content_book_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <LinearLayout
+                android:id="@+id/content_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#000000"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:id="@+id/back_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingVertical="16dp"
+                    android:paddingLeft="12dp">
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:contentDescription="@string/back"
+                        android:src="@drawable/ic_baseline_arrow_back_24" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_bold"
+                        android:paddingLeft="8dp"
+                        android:text="@string/back"
+                        android:textColor="#fff"
+                        tools:text="@string/back" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/header_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="210dp"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+
+                    <ImageView
+                        android:id="@+id/book_image"
+                        android:layout_width="110dp"
+                        android:layout_height="150dp"
+                        android:background="@drawable/rounded_image"
+                        android:contentDescription="@string/search_book"
+                        android:scaleType="fitXY"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@drawable/book_placeholder" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/container_header_desc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:paddingVertical="12dp">
+
+                        <TextView
+                            android:id="@+id/book_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_bold"
+                            android:maxLines="2"
+                            android:textColor="#fff"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="@tools:sample/full_names" />
+
+                        <TextView
+                            android:id="@+id/author"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_regular"
+                            android:maxLines="2"
+                            android:paddingVertical="8dp"
+                            android:textColor="#00FF09"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="@+id/book_title"
+                            app:layout_constraintTop_toBottomOf="@+id/book_title"
+                            tools:text="@tools:sample/full_names" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/add_favorite"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/button_background"
+                            android:drawableLeft="@drawable/ic_baseline_favorite_border_24"
+                            android:drawablePadding="6dp"
+                            android:fontFamily="@font/poppins_bold"
+                            android:gravity="center_vertical"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="4dp"
+                            android:text="@string/add_favorite"
+                            android:textColor="#fff"
+                            android:textSize="14sp"
+                            android:textStyle="normal"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="@+id/author"
+                            app:layout_constraintTop_toBottomOf="@+id/author" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/book_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_bold"
+                android:maxLines="2"
+                android:paddingHorizontal="16dp"
+                android:paddingTop="12dp"
+                android:textColor="#000"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/content_header"
+                app:layout_constraintTop_toBottomOf="@+id/content_header"
+                tools:text="$120.00" />
+
+            <TextView
+                android:id="@+id/book_sub_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/poppins_regular"
+                android:paddingHorizontal="16dp"
+                android:textColor="#000"
+                android:textSize="14sp"
+                android:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@+id/book_price"
+                tools:layout_editor_absoluteX="16dp"
+                tools:text="@tools:sample/lorem/random" />
+
+            <TableLayout
+                android:id="@+id/tabla_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:paddingHorizontal="16dp"
+                app:layout_constraintEnd_toEndOf="@+id/book_sub_title"
+                app:layout_constraintStart_toStartOf="@+id/book_sub_title"
+                app:layout_constraintTop_toBottomOf="@+id/book_sub_title">
+
+                <TableRow
+                    android:id="@+id/table_content_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/publisher_title"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:padding="5dp"
+                        android:text="@string/publisher"
+                        android:textColor="#000" />
+
+                    <TextView
+                        android:id="@+id/publisher"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/poppins_regular"
+                        android:maxLines="2"
+                        android:padding="5dp"
+                        android:scrollHorizontally="false"
+                        tools:text="@tools:sample/full_names" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/table_content_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/isbn10_title"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:padding="5dp"
+                        android:text="@string/isbn10"
+                        android:textColor="#000" />
+
+                    <TextView
+                        android:id="@+id/isbn10"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/poppins_regular"
+                        android:maxLines="2"
+                        android:padding="5dp"
+                        android:scrollHorizontally="false"
+                        tools:text="211" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/table_content_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/isbn13_title"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:padding="5dp"
+                        android:text="@string/isbn13"
+                        android:textColor="#000" />
+
+                    <TextView
+                        android:id="@+id/isbn13"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/poppins_regular"
+                        android:maxLines="2"
+                        android:padding="5dp"
+                        android:scrollHorizontally="false"
+                        tools:text="2123" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/table_content_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/pages_title"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:padding="5dp"
+                        android:text="@string/pages"
+                        android:textColor="#000" />
+
+                    <TextView
+                        android:id="@+id/pages"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/poppins_regular"
+                        android:maxLines="2"
+                        android:padding="5dp"
+                        android:scrollHorizontally="false"
+                        tools:text="102" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/table_content_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/year_title"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:padding="5dp"
+                        android:text="@string/year"
+                        android:textColor="#000" />
+
+                    <TextView
+                        android:id="@+id/year"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/poppins_regular"
+                        android:maxLines="2"
+                        android:padding="5dp"
+                        android:scrollHorizontally="false"
+                        tools:text="2019" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/table_content_6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/ratting_title"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:padding="5dp"
+                        android:text="@string/ratting"
+                        android:textColor="#000" />
+
+                    <TextView
+                        android:id="@+id/ratting"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/poppins_regular"
+                        android:maxLines="2"
+                        android:padding="5dp"
+                        android:scrollHorizontally="false"
+                        tools:text="4.5" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/table_content_7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/url_title"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:padding="5dp"
+                        android:text="@string/url"
+                        android:textColor="#000" />
+
+                    <TextView
+                        android:id="@+id/url"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="none"
+                        android:fontFamily="@font/poppins_regular"
+                        android:maxLines="2"
+                        android:padding="5dp"
+                        android:scrollHorizontally="false"
+                        tools:text="http://google.com" />
+                </TableRow>
+            </TableLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp"
+                app:layout_constraintEnd_toEndOf="@+id/tabla_content"
+                app:layout_constraintStart_toStartOf="@+id/tabla_content"
+                app:layout_constraintTop_toBottomOf="@+id/tabla_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="@string/description"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:text="@string/description" />
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:textColor="#000"
+                    android:textSize="14sp"
+                    android:visibility="visible"
+                    tools:layout_editor_absoluteX="16dp"
+                    tools:text="@tools:sample/lorem/random" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
