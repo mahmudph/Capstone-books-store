@@ -12,7 +12,7 @@ data class BookDetail(
     val isbn10: String,
     val isbn13: String,
     val pages: String,
-    val pdf: Pdf,
+    val pdf: Pdf?,
     val price: String,
     val publisher: String,
     val rating: String,
