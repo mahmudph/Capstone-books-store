@@ -12,11 +12,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import id.myone.core.R
-import id.myone.core.databinding.ItemBookBinding
+import id.myone.core.databinding.ItemGridBookBinding
 import id.myone.core.domain.entity.Book
 
 class BookListAdapter : RecyclerView.Adapter<BookListAdapter.ViewHolder>() {
-    private lateinit var onClickItemBookList: OnClickItemBookList
+    private var onClickItemBookList: OnClickItemBookList? = null
     private var listBooks = ArrayList<Book>()
 
     interface OnClickItemBookList {
@@ -35,25 +35,34 @@ class BookListAdapter : RecyclerView.Adapter<BookListAdapter.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val binding = ItemBookBinding.bind(itemView)
+    inner class ViewHolder(itemView: View) :
+        RecyclerView.ViewHolder(itemView) {
+        private val binding = ItemGridBookBinding.bind(itemView)
 
         fun bind(book: Book) {
             with(binding) {
                 Glide.with(itemView.context)
                     .load(book.image)
+                    .fitCenter()
                     .into(ivItemImage)
 
-                tvItemTitle.text = book.title
-                tvItemSubtitle.text = book.subtitle
+                title.text = book.title
+                price.text = book.price
+            }
+
+            itemView.setOnClickListener {
+                onClickItemBookList?.onPressItem(book.id)
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_book, parent, false)
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.item_grid_book, parent, false
+            )
         )
+
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
