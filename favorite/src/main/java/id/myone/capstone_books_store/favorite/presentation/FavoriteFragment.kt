@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import id.myone.capstone_books_store.favorite.di.provideModuleDependencies
 import id.myone.core.adapter.BookListAdapter
 import id.myone.favorite.databinding.FragmentFavoriteBinding
@@ -40,7 +40,7 @@ class FavoriteFragment : Fragment(), BookListAdapter.OnClickItemBookList {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(binding.booksList) {
             setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = GridLayoutManager(context, 2)
             adapter = bookListAdapter
         }
 
@@ -50,7 +50,13 @@ class FavoriteFragment : Fragment(), BookListAdapter.OnClickItemBookList {
     private fun provideFavoriteBooks() {
         favoriteViewModel.favoriteBookList.observe(viewLifecycleOwner) {
             binding.loading.loadingContent.visibility = View.GONE
-            bookListAdapter.setData(it)
+
+            if(it.isNotEmpty()) {
+                binding.booksList.visibility = View.VISIBLE
+                bookListAdapter.setData(it)
+            } else {
+                binding.infoFavorite.visibility = View.VISIBLE
+            }
         }
     }
 
