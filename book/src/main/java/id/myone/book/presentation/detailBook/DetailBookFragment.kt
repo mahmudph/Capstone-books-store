@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
@@ -16,6 +17,10 @@ import org.koin.android.ext.android.inject
 class DetailBookFragment : Fragment() {
     private lateinit var binding: FragmentDetailBookBinding
     private val detailBookViewModel: DetailBookViewModel by inject()
+
+    private var bookDetailTemp: BookDetail? = null
+    private var isFavoriteBook: Boolean = false
+    private lateinit var bookId: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,10 +36,16 @@ class DetailBookFragment : Fragment() {
         binding.loading.loadingContent.visibility = View.VISIBLE
         binding.contentBookDetail.visibility = View.GONE
 
+        bookId = requireArguments().getString(BOOK_ID)!!
 
         binding.backButton.setOnClickListener {
             view.findNavController().popBackStack()
         }
+
+        binding.addFavorite.setOnClickListener {
+            setFavoriteBook()
+        }
+
         this.loadDetailBook()
     }
 
@@ -44,18 +55,55 @@ class DetailBookFragment : Fragment() {
     }
 
     private fun loadDetailBook() {
-
-        val bookId = requireArguments().getString(BOOK_ID)!!
         detailBookViewModel.loadBookDetail(bookId).observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Loading -> showLoading()
-                is Result.Error -> showErrorMessage()
+                is Result.Error -> showErrorMessage(it.message!!)
                 is Result.Success -> showSuccessData(it.data!!)
             }
+        }
+
+        this.getBookFavoriteStatus()
+
+    }
+
+    private fun getBookFavoriteStatus() {
+        detailBookViewModel.getBookFavoriteStatus(bookId)
+            .observe(viewLifecycleOwner) { isFavorite ->
+                isFavoriteBook = isFavorite
+
+                val iconDrawable = if (isFavorite) {
+                    binding.addFavorite.text = getString(R.string.delete_favorite)
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.ic_baseline_favorite_24
+                    )
+                } else {
+                    binding.addFavorite.text = getString(R.string.add_favorite)
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.ic_baseline_favorite_border_24
+                    )
+                }
+
+                binding.addFavorite.setCompoundDrawablesWithIntrinsicBounds(
+                    iconDrawable, null, null, null,
+                )
+            }
+    }
+
+
+    private fun setFavoriteBook() {
+        bookDetailTemp?.let {
+            detailBookViewModel.setFavoriteBook(bookId, it, !isFavoriteBook)
+                .observe(viewLifecycleOwner) {
+                    this.getBookFavoriteStatus()
+                }
         }
     }
 
     private fun showSuccessData(bookDetail: BookDetail) {
+        bookDetailTemp = bookDetail
 
         with(binding) {
             loading.loadingContent.visibility = View.GONE
@@ -77,13 +125,12 @@ class DetailBookFragment : Fragment() {
 
             Glide.with(this@DetailBookFragment).load(bookDetail.image).fitCenter().into(bookImage)
         }
-
     }
 
-    private fun showErrorMessage() {
+    private fun showErrorMessage(e: String) {
         binding.loading.loadingContent.visibility = View.GONE
         binding.loading.loadingContent.visibility = View.GONE
-        binding.information.information.visibility = View.GONE
+        binding.information.information.visibility = View.VISIBLE
     }
 
     companion object {

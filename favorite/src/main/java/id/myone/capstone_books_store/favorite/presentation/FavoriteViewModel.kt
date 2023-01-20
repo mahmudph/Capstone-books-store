@@ -3,11 +3,11 @@
  * mahmud120398@gmail.com
  */
 
-package id.myone.favorite.presentation
+package id.myone.capstone_books_store.favorite.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import id.myone.favorite.domain.usecase.GetFavoriteBookUseCase
+import id.myone.capstone_books_store.favorite.domain.usecase.GetFavoriteBookUseCase
 
 class FavoriteViewModel(getFavoriteBookUseCase: GetFavoriteBookUseCase) : ViewModel() {
     val favoriteBookList = getFavoriteBookUseCase().asLiveData()

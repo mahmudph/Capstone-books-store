@@ -9,7 +9,7 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/boorkmarks"
+        android:id="@+id/favorite"
         android:icon="@drawable/ic_baseline_bookmarks_24"
         android:title="@string/favorites"
         app:showAsAction="ifRoom" />

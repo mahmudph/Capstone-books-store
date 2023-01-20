@@ -28,6 +28,6 @@
         android:textSize="14sp"
         android:textColor="#000"
         android:textStyle="normal"
+        android:text="@string/failed_to_connect_server"
         tools:text="@string/failed_to_connect_server" />
-
 </LinearLayout>

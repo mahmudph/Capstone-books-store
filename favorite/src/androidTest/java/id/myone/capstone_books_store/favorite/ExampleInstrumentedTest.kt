@@ -1,4 +1,4 @@
-package id.myone.favorite
+package id.myone.capstone_books_store.favorite
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("id.myone.favorite.test", appContext.packageName)
+        assertEquals("id.myone.capstone_books_store.favorite.test", appContext.packageName)
     }
 }

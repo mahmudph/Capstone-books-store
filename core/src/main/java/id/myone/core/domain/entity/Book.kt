@@ -17,5 +17,5 @@ data class Book(
     val price: String,
     val image: String,
     val url: String,
-    val isFavorite: Boolean = false
+    var isFavorite: Boolean = false
 ): Parcelable

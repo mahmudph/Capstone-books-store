@@ -1,4 +1,4 @@
 <resources>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="data_favorite_not_found">Data Favorite Not Found</string>
+    <string name="data_favorite_desc_not_found">Wops… You have not yet add any book to the list of favorite</string>
 </resources>

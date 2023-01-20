@@ -3,7 +3,7 @@
  * mahmud120398@gmail.com
  */
 
-package id.myone.favorite.domain.usecase
+package id.myone.capstone_books_store.favorite.domain.usecase
 
 import id.myone.core.domain.entity.Book
 import id.myone.core.domain.repository.Repository
