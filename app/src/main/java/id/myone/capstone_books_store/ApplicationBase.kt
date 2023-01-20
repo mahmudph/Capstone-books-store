@@ -5,7 +5,7 @@
 
 package id.myone.capstone_books_store
 
-import android.app.Application
+import com.google.android.play.core.splitcompat.SplitCompatApplication
 import id.myone.book.di.bookUseCaseModel
 import id.myone.book.di.bookViewModelModule
 import id.myone.core.di.databaseModule
@@ -17,7 +17,7 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 
-class ApplicationBase : Application() {
+class ApplicationBase : SplitCompatApplication() {
     override fun onCreate() {
         super.onCreate()
 
