@@ -8,6 +8,7 @@
     <string name="data_not_found">Data Not Found</string>
     <string name="data_not_found_desc">I\'m sorry we can not find books match with what you want, try with different title of the book.</string>
     <string name="add_favorite">Favorite</string>
+    <string name="delete_favorite">Delete Favorite</string>
     <string name="publisher">Publisher</string>
     <string name="isbn10">Isbn10</string>
     <string name="isbn13">Isbn13</string>

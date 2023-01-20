@@ -16,7 +16,6 @@
             app:restoreState="false"
             android:id="@+id/action_bookFragment_to_detailBookFragment"
             app:destination="@id/book_details" />
-        <deepLink app:uri="books-app://books-collection" />
     </fragment>
 
     <fragment

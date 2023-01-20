@@ -2,14 +2,22 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/favorite_navigation"
-    app:startDestination="@id/boorkmarks">
+    app:moduleName="favorite"
+    app:startDestination="@id/favoriteScreen">
 
     <fragment
-        android:id="@+id/boorkmarks"
-        android:name="id.myone.favorite.presentation.FavoriteFragment"
+        android:id="@+id/favoriteScreen"
+        android:name="id.myone.capstone_books_store.favorite.presentation.FavoriteFragment"
         android:label="fragment_favorite"
+        app:moduleName="favorite"
         tools:layout="@layout/fragment_favorite">
-        <deepLink app:uri="books-app://favorite" />
+        <action
+            android:id="@+id/action_favorite_to_book_details"
+            app:destination="@id/book_details">
+            <argument
+                android:name="BOOK_ID"
+                app:argType="string" />
+        </action>
     </fragment>
+
 </navigation>

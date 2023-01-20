@@ -4,4 +4,5 @@
     <string name="process_failure">Process Failure.</string>
     <string name="failed_to_connect_server">Failed connect to server, please check your internet connection then try again.</string>
     <string name="placeholder_book">placeholder_book</string>
+    <string name="loading_desc">Please wait a moment</string>
 </resources>
