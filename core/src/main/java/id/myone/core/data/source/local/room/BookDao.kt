@@ -18,4 +18,18 @@ interface BookDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun bulkInsert(listBookEntity: List<BookEntity>)
+
+    @Query("SELECT * FROM tbl_books WHERE is_favorite=1")
+    fun getFavoriteBooks(): Flow<List<BookEntity>>
+
+    @Query("SELECT * FROM tbl_books WHERE id=:id")
+    suspend fun getBookById(id: String): BookEntity?
+
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertBook(bookEntity: BookEntity)
+
+    @Update
+    suspend fun updateBook(bookEntity: BookEntity)
+
 }
