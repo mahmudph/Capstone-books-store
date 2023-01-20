@@ -11,13 +11,11 @@ import id.myone.book.di.bookViewModelModule
 import id.myone.core.di.databaseModule
 import id.myone.core.di.networkModule
 import id.myone.core.di.repositoryModule
-import id.myone.favorite.di.favoriteUseCaseModule
-import id.myone.favorite.di.favoriteViewModelModule
+import id.myone.core.di.utilityModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
-
 
 class ApplicationBase : Application() {
     override fun onCreate() {
@@ -33,8 +31,7 @@ class ApplicationBase : Application() {
                     repositoryModule,
                     bookUseCaseModel,
                     bookViewModelModule,
-                    favoriteUseCaseModule,
-                    favoriteViewModelModule,
+                    utilityModule
                 )
             )
         }
