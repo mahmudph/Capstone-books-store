@@ -1,0 +1,2 @@
+ java -jar bundletool.jar build-apks --bundle app/build/outputs/bundle/debug/app-debug.aab --output=app/build/outputs/bundle/debug/capstonebook.apks --overwrite --mode=universal
+ java -jar bundletool.jar install-apks --apks=app/build/outputs/bundle/debug/capstonebook.apks
