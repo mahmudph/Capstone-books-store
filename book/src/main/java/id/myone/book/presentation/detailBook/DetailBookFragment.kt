@@ -58,7 +58,7 @@ class DetailBookFragment : Fragment() {
         detailBookViewModel.loadBookDetail(bookId).observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Loading -> showLoading()
-                is Result.Error -> showErrorMessage(it.message!!)
+                is Result.Error -> showErrorMessage()
                 is Result.Success -> showSuccessData(it.data!!)
             }
         }
@@ -127,7 +127,7 @@ class DetailBookFragment : Fragment() {
         }
     }
 
-    private fun showErrorMessage(e: String) {
+    private fun showErrorMessage() {
         binding.loading.loadingContent.visibility = View.GONE
         binding.loading.loadingContent.visibility = View.GONE
         binding.information.information.visibility = View.VISIBLE
