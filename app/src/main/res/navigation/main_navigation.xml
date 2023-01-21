@@ -54,6 +54,12 @@
             app:launchSingleTop="true"
             app:popUpTo="@id/splashscreen"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashscreen_to_onboarding"
+            app:destination="@id/onboarding"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/splashscreen"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -61,6 +67,12 @@
         android:name="id.myone.capstone_books_store.view.ProgressFragment"
         android:label="ProgressFragment"
         tools:layout="@layout/fragment_progress" />
+
+    <include-dynamic
+        android:id="@+id/onboarding"
+        app:graphPackage="id.myone.capstone_books_store.onboarding"
+        app:graphResName="onboarding_graph"
+        app:moduleName="onboarding" />
 
     <include-dynamic
         android:id="@+id/favorite"
