@@ -46,7 +46,7 @@
 
     <fragment
         android:id="@+id/splashscreen"
-        android:name="id.myone.capstone_books_store.ui.SplashscreenFragment"
+        android:name="id.myone.capstone_books_store.ui.splashscreen.SplashscreenFragment"
         tools:layout="@layout/fragment_splashscreen">
         <action
             android:id="@+id/action_splashscreen_to_books_collections"
