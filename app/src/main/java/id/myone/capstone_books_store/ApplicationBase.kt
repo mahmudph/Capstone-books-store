@@ -8,10 +8,8 @@ package id.myone.capstone_books_store
 import com.google.android.play.core.splitcompat.SplitCompatApplication
 import id.myone.book.di.bookUseCaseModel
 import id.myone.book.di.bookViewModelModule
-import id.myone.core.di.databaseModule
-import id.myone.core.di.networkModule
-import id.myone.core.di.repositoryModule
-import id.myone.core.di.utilityModule
+import id.myone.capstone_books_store.di.appViewModelModule
+import id.myone.core.di.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -28,8 +26,10 @@ class ApplicationBase : SplitCompatApplication() {
                 listOf(
                     databaseModule,
                     networkModule,
+                    appStorageModule,
                     repositoryModule,
                     bookUseCaseModel,
+                    appViewModelModule,
                     bookViewModelModule,
                     utilityModule
                 )

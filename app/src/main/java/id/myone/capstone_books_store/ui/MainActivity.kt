@@ -32,15 +32,21 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
+            destination.arguments
             when (destination.id) {
-                R.id.splashscreen -> {
-                    binding.navView.visibility = View.GONE
+                R.id.books_collections -> {
+                    binding.navView.visibility = View.VISIBLE
                 }
-                id.myone.book.R.id.book_details -> {
-                    binding.navView.visibility = View.GONE
+                R.id.search_books -> {
+                    binding.navView.visibility = View.VISIBLE
                 }
                 else -> {
-                    binding.navView.visibility = View.VISIBLE
+                    if (destination.label == "fragment_favorite") {
+                        binding.navView.visibility = View.VISIBLE
+                        return@addOnDestinationChangedListener
+                    }
+
+                    binding.navView.visibility = View.GONE
                 }
             }
         }

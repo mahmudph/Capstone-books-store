@@ -1,6 +1,8 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.dynamic-feature'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
     id 'androidx.navigation.safeargs'
 }
 
@@ -8,17 +10,15 @@ apply from: '../share_dependencies.gradle'
 apply from: "../share_navigation_dependencies.gradle"
 
 android {
-    namespace 'id.myone.capstone_books_store'
+    namespace 'id.myone.onboarding'
     compileSdk 33
 
     defaultConfig {
-        applicationId "id.myone.capstone_books_store"
         minSdk 21
         targetSdk 33
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -34,20 +34,15 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-
     buildFeatures {
-        viewBinding true
+        viewBinding = true
     }
-
-    dynamicFeatures = [':favorite', ':onboarding']
 }
 
 dependencies {
-    implementation project(":core")
-    implementation project(":book")
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(path: ':core')
+    implementation project(path: ':app')
+    implementation fileTree(dir: "libs", include: ["*.jar"])
 
-    implementation "com.google.android.play:core:1.10.3"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
 }

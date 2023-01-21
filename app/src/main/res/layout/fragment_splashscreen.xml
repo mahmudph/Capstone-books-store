@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.SplashscreenFragment">
+    tools:context=".ui.splashscreen.SplashscreenFragment">
 
     <ImageView
         android:layout_width="155dp"
