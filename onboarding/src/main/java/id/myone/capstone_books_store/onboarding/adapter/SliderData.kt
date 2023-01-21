@@ -1,7 +1,7 @@
 package id.myone.capstone_books_store.onboarding.adapter
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 
 @Parcelize
