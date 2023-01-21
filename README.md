@@ -24,7 +24,6 @@ this project consist four module:
 ## Screnshoot
 
 <img src="/resources/splashscreen.png" width="180px" style="padding:8px"/>
-<br/>
 <img src="/resources/intro_1.png" width="180px" style="padding:8px"/><img src="/resources/intro_2.png" width="180px" style="padding:8px"/><img src="/resources/intro_3.png" width="180px" style="padding:8px"/>
 
 <img src="/resources/dashboard.png" width="180px" style="padding:8px"/><img src="/resources/detail.png" width="180px" style="padding:8px"/><img src="/resources/favorite.png" width="180px" style="padding:8px"/><img src="/resources/search.png" width="180px" style="padding:8px"/>
