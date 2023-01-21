@@ -1,8 +1,6 @@
-<<<<<<< HEAD:onboarding/src/test/java/id/myone/onboarding/ExampleUnitTest.kt
+
+
 package id.myone.onboarding
-=======
-package id.myone.capstone_books_store.favorite
->>>>>>> 6e092f4 (refactor: update test package name):favorite/src/test/java/id/myone/capstone_books_store/favorite/ExampleUnitTest.kt
 
 import org.junit.Test
 
