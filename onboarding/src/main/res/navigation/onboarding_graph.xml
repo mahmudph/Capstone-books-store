@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/onboarding_page">
+    <fragment
+        android:id="@+id/onboarding_page"
+        android:name="id.myone.capstone_books_store.onboarding.presenter.OnBoardingFragment"
+        android:label="onboarding"
+        app:moduleName="onboarding"
+        tools:layout="@layout/fragment_on_boarding">
+        <action
+            android:id="@+id/action_onboarding_to_books_collections"
+            app:destination="@id/books_collections"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/onboarding"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>

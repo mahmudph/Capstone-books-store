@@ -3,13 +3,80 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
+    app:progressDestination="@id/progress_fragment"
     app:startDestination="@id/splashscreen">
 
-    <include app:graph="@navigation/favorite_navigation" />
-    <include app:graph="@navigation/book_navigation" />
+    <fragment
+        android:id="@+id/books_collections"
+        android:name="id.myone.book.presentation.book.BookFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_book">
+        <action
+            android:id="@+id/action_bookFragment_to_detailBookFragment"
+            app:destination="@id/book_details"
+            app:popUpToInclusive="true"
+            app:popUpToSaveState="false"
+            app:restoreState="false" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/book_details"
+        android:name="id.myone.book.presentation.detailBook.DetailBookFragment"
+        android:label="Detail book"
+        tools:layout="@layout/fragment_detail_book">
+        <argument
+            android:name="BOOK_ID"
+            app:argType="string" />
+        <deepLink app:uri="books-app://book-detail/{BOOK_ID}" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/search_books"
+        android:name="id.myone.book.presentation.search.SearchFragment"
+        android:label="Search book"
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_search_books_to_book_details"
+            app:destination="@id/book_details">
+            <argument
+                android:name="BOOK_ID"
+                app:argType="string" />
+        </action>
+    </fragment>
 
     <fragment
         android:id="@+id/splashscreen"
-        android:name="id.myone.capstone_books_store.ui.SplashscreenFragment"
-        tools:layout="@layout/fragment_splashscreen" />
+        android:name="id.myone.capstone_books_store.ui.splashscreen.SplashscreenFragment"
+        tools:layout="@layout/fragment_splashscreen">
+        <action
+            android:id="@+id/action_splashscreen_to_books_collections"
+            app:destination="@id/books_collections"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/splashscreen"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashscreen_to_onboarding"
+            app:destination="@id/onboarding"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/splashscreen"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/progress_fragment"
+        android:name="id.myone.capstone_books_store.view.ProgressFragment"
+        android:label="ProgressFragment"
+        tools:layout="@layout/fragment_progress" />
+
+    <include-dynamic
+        android:id="@+id/onboarding"
+        app:graphPackage="id.myone.capstone_books_store.onboarding"
+        app:graphResName="onboarding_graph"
+        app:moduleName="onboarding" />
+
+    <include-dynamic
+        android:id="@+id/favorite"
+        app:graphPackage="id.myone.capstone_books_store.favorite"
+        app:graphResName="favorite_navigation"
+        app:moduleName="favorite" />
 </navigation>

@@ -5,9 +5,7 @@
 
 package id.myone.book.di
 
-import id.myone.book.domain.usecase.GetBookListUseCase
-import id.myone.book.domain.usecase.GetDetailBookUseCase
-import id.myone.book.domain.usecase.SearchBookUseCase
+import id.myone.book.domain.usecase.*
 import id.myone.book.presentation.book.BookViewModel
 import id.myone.book.presentation.detailBook.DetailBookViewModel
 import id.myone.book.presentation.search.SearchViewModel
@@ -17,11 +15,13 @@ val bookUseCaseModel = module {
     single { GetBookListUseCase(get()) }
     single { GetDetailBookUseCase(get()) }
     single { SearchBookUseCase(get()) }
+    single { GetBookFavoriteStatusUseCase(get()) }
+    single { SetFavoriteBookUseCase(get()) }
 }
 
 val bookViewModelModule = module {
     single { BookViewModel(get()) }
-    single { DetailBookViewModel(get()) }
+    single { DetailBookViewModel(get(), get(), get()) }
     single { SearchViewModel(get()) }
 }
 

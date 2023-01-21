@@ -5,7 +5,6 @@
 
 package id.myone.core.domain.repository
 
-import id.myone.core.data.source.local.entity.FavoriteEntity
 import id.myone.core.domain.entity.Book
 import id.myone.core.domain.entity.BookDetail
 import id.myone.core.domain.utils.Result
@@ -17,7 +16,8 @@ interface Repository {
     fun getFavoriteBookList(): Flow<List<Book>>
     fun getDetailBook(id: String): Flow<Result<BookDetail>>
     suspend fun searchBooks(query: String, page: String): Result<List<Book>>
-    suspend fun setFavoriteBook(book: FavoriteEntity): Result<String>
+    suspend fun insertBook(book: Book): Result<String>
     suspend fun getIsInFavoriteBook(bookId: String): Boolean
-    suspend fun deleteFavoriteBook(id: Int): Result<String>
+    suspend fun updateBook(book: Book): Result<String>
+    suspend fun getBookById(bookId: String): Book?
 }

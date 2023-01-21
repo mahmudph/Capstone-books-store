@@ -1,7 +1,6 @@
 package id.myone.core.utils
 
 import id.myone.core.data.source.local.entity.BookEntity
-import id.myone.core.data.source.local.entity.FavoriteBookEntity
 import id.myone.core.data.source.remote.response.BookModel
 import id.myone.core.data.source.remote.response.DetailBooksResponse
 import id.myone.core.data.source.remote.response.PdfModel
@@ -22,27 +21,9 @@ object DataMapper {
     }
 
     fun mapBookEntityToBookDomain(bookEntityList: List<BookEntity>) = bookEntityList.map {
-        Book(
-            id = it.id,
-            title = it.title,
-            subtitle = it.subtitle,
-            price = it.price,
-            url = it.url,
-            image = it.image,
-        )
+        tranformBookEntityToBook(it)
     }
 
-    fun mapFavoriteBookEntityToBookDomain(favoriteBookList: List<FavoriteBookEntity>) =
-        favoriteBookList.map {
-            Book(
-                id = it.book.id,
-                title = it.book.title,
-                subtitle = it.book.subtitle,
-                price = it.book.price,
-                url = it.book.url,
-                image = it.book.image,
-            )
-        }
 
     private fun transformPdfModelToDomain(pdfModel: PdfModel): Pdf {
         return Pdf(
@@ -53,7 +34,8 @@ object DataMapper {
 
     fun transformDetailBookToDetailBookDomain(bookDetail: DetailBooksResponse): BookDetail {
 
-        val pdfDomain = if (bookDetail.pdf != null) transformPdfModelToDomain(bookDetail.pdf) else null
+        val pdfDomain =
+            if (bookDetail.pdf != null) transformPdfModelToDomain(bookDetail.pdf) else null
 
         return BookDetail(
             authors = bookDetail.authors,
@@ -82,6 +64,7 @@ object DataMapper {
             image = book.image,
             price = book.price,
             url = book.url,
+            isFavorite = book.isFavorite,
         )
     }
 
@@ -93,6 +76,30 @@ object DataMapper {
             image = book.image,
             price = book.price,
             url = book.url,
+        )
+    }
+
+
+    fun transformFromBookDetailToBook(bookDetail: BookDetail, bookId: String): Book {
+        return Book(
+            id = bookId,
+            title = bookDetail.title,
+            subtitle = bookDetail.subtitle,
+            image = bookDetail.image,
+            price = bookDetail.price,
+            url = bookDetail.url,
+        )
+    }
+
+    fun tranformBookEntityToBook(bookEntity: BookEntity): Book {
+        return Book(
+            id = bookEntity.id,
+            title = bookEntity.title,
+            subtitle = bookEntity.subtitle,
+            price = bookEntity.price,
+            url = bookEntity.url,
+            image = bookEntity.image,
+            isFavorite = bookEntity.isFavorite
         )
     }
 }

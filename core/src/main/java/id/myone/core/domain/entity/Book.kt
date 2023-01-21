@@ -6,8 +6,7 @@
 package id.myone.core.domain.entity
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Book(
@@ -17,5 +16,5 @@ data class Book(
     val price: String,
     val image: String,
     val url: String,
-    val isFavorite: Boolean = false
+    var isFavorite: Boolean = false
 ): Parcelable

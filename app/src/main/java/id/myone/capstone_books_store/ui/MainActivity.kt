@@ -2,12 +2,9 @@ package id.myone.capstone_books_store.ui
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.dynamicfeatures.fragment.DynamicNavHostFragment
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import id.myone.capstone_books_store.R
@@ -27,29 +24,29 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpAppNavigation() {
         val navView: BottomNavigationView = binding.navView
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_container) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_container) as DynamicNavHostFragment
         val navController = navHostFragment.navController
 
-        val applicationBarConfig = AppBarConfiguration.Builder(
-            R.id.books_collections, R.id.boorkmarks, R.id.search_books
-        ).build()
 
-        setupActionBarWithNavController(navController, applicationBarConfig)
         navView.setupWithNavController(navController)
 
-        navController.addOnDestinationChangedListener { controller, destination, _ ->
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            destination.arguments
             when (destination.id) {
-                R.id.splashscreen -> {
-                    supportActionBar?.hide()
-                    binding.navView.visibility = View.GONE
+                R.id.books_collections -> {
+                    binding.navView.visibility = View.VISIBLE
                 }
-                id.myone.book.R.id.book_details -> {
-                    supportActionBar?.hide()
-                    binding.navView.visibility = View.GONE
+                R.id.search_books -> {
+                    binding.navView.visibility = View.VISIBLE
                 }
                 else -> {
-                    supportActionBar?.hide()
-                    binding.navView.visibility = View.VISIBLE
+                    if (destination.label == "fragment_favorite") {
+                        binding.navView.visibility = View.VISIBLE
+                        return@addOnDestinationChangedListener
+                    }
+
+                    binding.navView.visibility = View.GONE
                 }
             }
         }

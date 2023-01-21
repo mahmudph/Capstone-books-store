@@ -6,11 +6,11 @@
 package id.myone.core.domain.entity
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 
 @Parcelize
 data class Pdf(
-    val chapter2: String,
-    val chapter5: String
+    val chapter2: String?,
+    val chapter5: String?
 ): Parcelable

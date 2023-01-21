@@ -1,0 +1,27 @@
+<resources>
+    <string name="onboarding">OnBoarding module</string>
+    <string name="intro_dot">●</string>
+    <string name="skip">Skip</string>
+    <string name="next">Next</string>
+    <string name="onboarding_image">onboarding_image</string>
+    <string name="previous">previous</string>
+
+
+    <string-array name="title_intro">
+        <item>Find Books Which Right For You</item>
+        <item>Find Out The Price</item>
+        <item>Read Information Of Book</item>
+    </string-array>
+
+    <string-array name="subtitle_intro">
+        <item>Find book easily in your phone and which books is right for you</item>
+        <item>Find out the price of the book which want to buy, whether affordable or not</item>
+        <item>Fead a information of the book, like year of publish, author, description or etc</item>
+    </string-array>
+
+    <array name="image_intro">
+        <item>@drawable/book_list</item>
+        <item>@drawable/bookstore</item>
+        <item>@drawable/book_window</item>
+    </array>
+</resources>

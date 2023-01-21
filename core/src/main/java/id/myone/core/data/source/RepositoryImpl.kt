@@ -6,7 +6,6 @@
 package id.myone.core.data.source
 
 import id.myone.core.data.source.local.LocalDataSource
-import id.myone.core.data.source.local.entity.FavoriteEntity
 import id.myone.core.data.source.remote.RemoteDataSource
 import id.myone.core.data.source.remote.network.ApiResponse
 import id.myone.core.data.source.remote.response.BookModel
@@ -55,16 +54,14 @@ class RepositoryImpl(
 
     override fun getFavoriteBookList(): Flow<List<Book>> {
         return localDatasource.getFavoriteBooks().map {
-            DataMapper.mapFavoriteBookEntityToBookDomain(it)
+            DataMapper.mapBookEntityToBookDomain(it)
         }
     }
 
     override suspend fun searchBooks(query: String, page: String): Result<List<Book>> {
         return try {
-
             val response = remoteDataSource.searchBook(query, page)
             Result.Success(DataMapper.mapBookModelToBookDomain(response.books))
-
         } catch (e: SocketException) {
             Result.Error(message = noInternetConnectionError)
         } catch (e: Exception) {
@@ -80,13 +77,15 @@ class RepositoryImpl(
         } catch (e: SocketException) {
             emit(Result.Error(message = noInternetConnectionError))
         } catch (e: Exception) {
+            e.printStackTrace()
             emit(Result.Error(message = defaultErrorMessage))
         }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun setFavoriteBook(book: FavoriteEntity): Result<String> {
+    override suspend fun insertBook(book: Book): Result<String> {
         return try {
-            localDatasource.setFavoriteBook(book)
+            val bookEntity = DataMapper.transformBookDomainToEntity(book)
+            localDatasource.insertBook(bookEntity)
             Result.Success(successAddToFavorite)
         } catch (e: Exception) {
             Result.Error(failedToAddFavorite)
@@ -95,26 +94,34 @@ class RepositoryImpl(
 
     override suspend fun getIsInFavoriteBook(bookId: String): Boolean {
         return try {
-            val book = localDatasource.getFavoriteBookById(bookId)
-            return book?.favorite?.status ?: false
+            val favoriteBook = localDatasource.getBookById(bookId)
+            return favoriteBook?.isFavorite ?: false
         } catch (e: Exception) {
             false
         }
     }
 
-    override suspend fun deleteFavoriteBook(id: Int): Result<String> {
+    override suspend fun updateBook(book: Book): Result<String> {
         return try {
-            localDatasource.deleteFavoriteBook(id)
-            Result.Success(successToDeleteFavoriteBook)
+            val bookEntity = DataMapper.transformBookDomainToEntity(book)
+            localDatasource.updateBook(bookEntity)
+            Result.Success(successAddToFavorite)
         } catch (e: Exception) {
-            Result.Error(failedToDeleteFavoriteBook)
+            Result.Error(failedToAddFavorite)
         }
     }
 
-    companion object {
-        private const val failedToDeleteFavoriteBook = "failed to delete favorite book"
-        private const val successToDeleteFavoriteBook = "success to delete favorite book"
+    override suspend fun getBookById(bookId: String): Book? {
+        return try {
+            val data = localDatasource.getBookById(bookId)
+            return if (data != null) DataMapper.tranformBookEntityToBook(data) else null
+        } catch (e: Exception) {
+            null
+        }
+    }
 
+
+    companion object {
         private const val successAddToFavorite = "Success to set book to the list favorite books"
         private const val failedToAddFavorite = "failed to set book to the list favorite books"
 
