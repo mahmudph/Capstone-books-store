@@ -2,13 +2,12 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/navigation_book"
-    app:startDestination="@id/books_collections">
+    app:startDestination="@id/book_list">
 
     <fragment
-        android:id="@+id/books_collections"
-        android:name="id.myone.book.presentation.book.BookFragment"
-        android:label="Home"
+        android:id="@+id/book_list"
+        android:name="id.myone.capstone_books_store.book.presentation.book.BookFragment"
+        android:label="home"
         tools:layout="@layout/fragment_book">
         <action
             app:popUpToSaveState="false"
@@ -20,8 +19,8 @@
 
     <fragment
         android:id="@+id/book_details"
-        android:name="id.myone.book.presentation.detailBook.DetailBookFragment"
-        android:label="Detail book"
+        android:name="id.myone.capstone_books_store.book.presentation.detailBook.DetailBookFragment"
+        android:label="detail-book"
         tools:layout="@layout/fragment_detail_book">
         <argument
             android:name="BOOK_ID"
@@ -33,8 +32,8 @@
 
     <fragment
         android:id="@+id/search_books"
-        android:name="id.myone.book.presentation.search.SearchFragment"
-        android:label="Search book"
+        android:name="id.myone.capstone_books_store.search_book.presentation.search.SearchFragment"
+        android:label="search-book"
         tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_search_books_to_book_details"

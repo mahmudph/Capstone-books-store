@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_book">Search Book</string>
+    <string name="search_description">What type of book do you curious most, you can find that information in this search form field</string>
+
+    <string name="data_not_found">Data Not Found</string>
+    <string name="data_not_found_desc">I\'m sorry we can not find books match with what you want, try with different title of the book.</string>
+</resources>
