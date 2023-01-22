@@ -11,7 +11,8 @@ The project name is capstone book store. this is used to find book related with 
 this project consist four module:
 
 - **Core (core library module)**
-- **Book (libary module)**
+- **Book (on demand module)**
+- **Search Book (on demand module)**
 - **Favorite (on demand module)**
 - **Onboarding (install-time module)**
 
