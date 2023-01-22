@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:autofillHints="none"
             android:background="@drawable/edit_text"
-            android:drawableStart="@drawable/ic_baseline_search_24"
+            android:drawableEnd="@drawable/ic_baseline_search_24"
             android:focusable="true"
             android:hint="@string/search_book"
             android:imeActionLabel="Search"
