@@ -1,7 +1,4 @@
 on:
-  push:
-    branches:
-      - feature/add-continius-integration-github-ci
   pull_request:
     branches:
       - develop
