@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/favorite" />
             <option value="$PROJECT_DIR$/onboarding" />
+            <option value="$PROJECT_DIR$/search_book" />
           </set>
         </option>
       </GradleProjectSettings>

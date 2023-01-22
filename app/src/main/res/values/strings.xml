@@ -13,4 +13,5 @@
     <string name="install_failed">Failed to install assets please check your internet connection.</string>
     <string name="install_canceled">Install assets favorite being canceled.</string>
     <string name="install_in_progress">Please wait install asset is in progress</string>
+    <string name="title_search_book">search_book</string>
 </resources>
