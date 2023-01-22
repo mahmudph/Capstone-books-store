@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import id.myone.capstone_books_store.favorite.di.provideModuleDependencies
@@ -61,7 +63,11 @@ class FavoriteFragment : Fragment(), BookListAdapter.OnClickItemBookList {
     }
 
     override fun onPressItem(bookId: String) {
-        val detailBooks = FavoriteFragmentDirections.actionFavoriteToBookDetails(bookId)
+
+        val detailBooks = NavDeepLinkRequest.Builder
+            .fromUri("books-app://book-detail/$bookId".toUri())
+            .build()
+
         findNavController().navigate(detailBooks)
     }
 }
