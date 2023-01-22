@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:dist="http://schemas.android.com/apk/distribution"
-    package="id.myone.capstone_books_store.book">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dist="http://schemas.android.com/apk/distribution">
+
     <dist:module
         dist:instant="false"
-        dist:title="@string/book">
+        dist:title="@string/title_search_book">
         <dist:delivery>
             <dist:install-time />
         </dist:delivery>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="id.myone.capstone_books_store.search_book.presentation.search.SearchFragment">
+    tools:context="id.myone.capstone_books_store.search_book.presentation.SearchFragment">
 
     <LinearLayout
         android:id="@+id/search_content"
@@ -22,8 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autofillHints="none"
-            android:background="@drawable/rounded_edittext"
-            android:drawableRight="@drawable/ic_baseline_search_24"
+            android:background="@drawable/edit_text"
+            android:drawableStart="@drawable/ic_baseline_search_24"
             android:focusable="true"
             android:hint="@string/search_book"
             android:imeActionLabel="Search"
@@ -32,7 +32,8 @@
             android:maxLines="1"
             android:paddingHorizontal="8dp"
             android:paddingVertical="12dp"
-            android:textColorHighlight="@color/white">
+            android:textColorHighlight="@color/white"
+            android:textSize="14sp">
 
             <requestFocus />
         </EditText>
