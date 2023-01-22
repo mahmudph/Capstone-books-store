@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.label) {
-                "home", "detail-book", "search-book", "fragment_favorite" -> {
+                "home","search-book", "fragment_favorite" -> {
                     binding.navView.visibility = View.VISIBLE
                 }
                 else -> {
