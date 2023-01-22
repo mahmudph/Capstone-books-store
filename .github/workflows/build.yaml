@@ -29,5 +29,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Build SampleApplication
-        run: ./gradlew --no-daemon build apk
+      - name: Build Capstone Book Store Apk
+        run: ./gradlew assembleRelease
+
+      - name: Build Capstone Book Store Abb
+        run: ./gradlew bundleRelease
+      - uses: actions/upload-artifact@v3
+        with:
+          name: capstone-books-store
+          path: |
+            app/build/outputs/apk/debug/app-debug.apk
+            app/build/outputs/bundle/debug/app-debug.aab
