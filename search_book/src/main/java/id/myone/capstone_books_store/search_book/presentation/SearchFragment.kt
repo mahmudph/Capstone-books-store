@@ -10,7 +10,6 @@ import android.view.inputmethod.EditorInfo
 import androidx.core.net.toUri
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -50,30 +49,27 @@ class SearchFragment : Fragment(), BookListAdapter.OnClickItemBookList {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        searchViewModel.searchResultLiveData.observe(viewLifecycleOwner) { res ->
+            when (res) {
+                is Result.Loading -> this@SearchFragment.showLoading()
+                is Result.Error -> this@SearchFragment.setVisibility(
+                    View.VISIBLE,
+                    View.GONE
+                )
+                is Result.Success -> {
+                    if (res.data!!.isEmpty()) {
+                        searchBinding.apply {
+                            searchInformation.visibility = View.VISIBLE
+                            loading.loadingContent.visibility = View.GONE
+                            bookSearchList.visibility = View.GONE
 
-        searchViewModel.searchBookResult.observe(viewLifecycleOwner) { data ->
-            data.asLiveData().observe(viewLifecycleOwner) {
-                when (it) {
-                    is Result.Loading -> this@SearchFragment.showLoading()
-                    is Result.Error -> this@SearchFragment.setVisibility(
-                        View.VISIBLE,
-                        View.GONE
-                    )
-                    is Result.Success -> {
-                        if (it.data!!.isEmpty()) {
-                            searchBinding.apply {
-                                searchInformation.visibility = View.VISIBLE
-                                loading.loadingContent.visibility = View.GONE
-                                bookSearchList.visibility = View.GONE
-
-                                title.text = getString(R.string.data_not_found)
-                                subTitle.text = getString(R.string.data_not_found_desc)
-                            }
-
-                        } else {
-                            adapter.setData(it.data!!)
-                            this@SearchFragment.setVisibility(View.GONE, View.VISIBLE)
+                            title.text = getString(R.string.data_not_found)
+                            subTitle.text = getString(R.string.data_not_found_desc)
                         }
+
+                    } else {
+                        adapter.setData(res.data!!)
+                        this@SearchFragment.setVisibility(View.GONE, View.VISIBLE)
                     }
                 }
             }
