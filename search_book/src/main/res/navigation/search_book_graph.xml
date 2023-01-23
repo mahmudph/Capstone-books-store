@@ -9,5 +9,9 @@
         android:name="id.myone.capstone_books_store.search_book.presentation.SearchFragment"
         android:label="search-book"
         app:moduleName="search_book"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search">
+
+        <deepLink app:uri="books-app://search"/>
+    </fragment>
+
 </navigation>

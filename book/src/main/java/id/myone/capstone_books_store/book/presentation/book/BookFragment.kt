@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import id.myone.book.R
@@ -62,7 +64,12 @@ class BookFragment : Fragment(), BookListAdapter.OnClickItemBookList {
         }
 
         fragmentBookBinding.searchBookPanel.setOnTouchListener { _, _ ->
-            findNavController().navigate(R.id.search_books)
+
+            val searchBook = NavDeepLinkRequest.Builder
+                .fromUri("books-app://search".toUri())
+                .build()
+
+            findNavController().navigate(searchBook)
             return@setOnTouchListener true
         }
 
