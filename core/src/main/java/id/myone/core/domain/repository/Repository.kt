@@ -13,11 +13,14 @@ import kotlinx.coroutines.flow.Flow
 
 interface Repository {
     fun getBooksList(): Flow<Result<List<Book>>>
-    fun getFavoriteBookList(): Flow<List<Book>>
     fun getDetailBook(id: String): Flow<Result<BookDetail>>
     fun searchBooks(query: String, page: String): Flow<Result<List<Book>>>
-    suspend fun insertBook(book: Book): Result<String>
-    suspend fun getIsInFavoriteBook(bookId: String): Boolean
-    suspend fun updateBook(book: Book): Result<String>
     suspend fun getBookById(bookId: String): Book?
+
+
+    fun getFavoriteBookList(): Flow<List<Book>>
+    suspend fun insertFavoriteBook(book: Book): Result<String>
+    suspend fun deleteFavoriteBook(favoriteBookId: String): Result<String>
+    suspend fun getIsInFavoriteBook(bookId: String): Boolean
+
 }

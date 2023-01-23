@@ -26,8 +26,8 @@ class DetailBookViewModel(
         emit(result)
     }
 
-    fun setFavoriteBook(bookId: String, book: BookDetail, value: Boolean) = liveData {
-        val result = setFavoriteBookUseCase(bookId, book, value)
+    fun setFavoriteBook(bookId: String, book: BookDetail) = liveData {
+        val result = setFavoriteBookUseCase(bookId, book)
         emit(result)
     }
 
