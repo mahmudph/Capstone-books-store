@@ -5,7 +5,6 @@
 
 package id.myone.core.di
 
-import android.content.SharedPreferences
 import androidx.room.Room
 import id.myone.core.data.source.RepositoryImpl
 import id.myone.core.data.source.local.LocalDataSource
@@ -14,7 +13,7 @@ import id.myone.core.data.source.remote.RemoteDataSource
 import id.myone.core.data.source.remote.network.ApiConfig
 import id.myone.core.domain.repository.Repository
 import id.myone.core.utils.AppExecutors
-import id.myone.core.utils.ModuleUtility
+import id.myone.core.utils.DynamicFeatureManagerUtility
 import id.myone.core.utils.SecureStorageApp
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
@@ -45,7 +44,8 @@ val repositoryModule = module {
 
 
 val utilityModule = module {
-    factory { ModuleUtility(get()) }
+    single { DynamicFeatureManagerUtility.createSplitInstallManager(androidContext()) }
+    factory { DynamicFeatureManagerUtility(get()) }
 }
 
 
