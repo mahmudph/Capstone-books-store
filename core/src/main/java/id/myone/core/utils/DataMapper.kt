@@ -1,6 +1,7 @@
 package id.myone.core.utils
 
 import id.myone.core.data.source.local.entity.BookEntity
+import id.myone.core.data.source.local.entity.FavoriteBookEntity
 import id.myone.core.data.source.remote.response.BookModel
 import id.myone.core.data.source.remote.response.DetailBooksResponse
 import id.myone.core.data.source.remote.response.PdfModel
@@ -9,19 +10,26 @@ import id.myone.core.domain.entity.BookDetail
 import id.myone.core.domain.entity.Pdf
 
 object DataMapper {
-    fun mapBookModelToBookDomain(bookModelList: List<BookModel>) = bookModelList.map {
-        Book(
-            id = it.isbn13,
-            title = it.title,
-            subtitle = it.subtitle,
-            price = it.price,
-            url = it.url,
-            image = it.image
-        )
-    }
+    fun mapBookModelToBookDomain(bookModelList: List<BookModel>) =
+        bookModelList.map {
+            Book(
+                id = it.isbn13,
+                title = it.title,
+                subtitle = it.subtitle,
+                price = it.price,
+                url = it.url,
+                image = it.image,
+            )
+        }
 
     fun mapBookEntityToBookDomain(bookEntityList: List<BookEntity>) = bookEntityList.map {
-        tranformBookEntityToBook(it)
+        transformBookEntityToBook(it)
+    }
+
+    fun mapFavoriteBookEntityToBookEntity(favoriteBookEntityList: List<FavoriteBookEntity>): List<Book> {
+        return favoriteBookEntityList.map {
+            transformFavoriteBookEntityToBook(it)
+        }
     }
 
 
@@ -64,7 +72,6 @@ object DataMapper {
             image = book.image,
             price = book.price,
             url = book.url,
-            isFavorite = book.isFavorite,
         )
     }
 
@@ -80,7 +87,10 @@ object DataMapper {
     }
 
 
-    fun transformFromBookDetailToBook(bookDetail: BookDetail, bookId: String): Book {
+    fun transformFromBookDetailToBook(
+        bookDetail: BookDetail,
+        bookId: String
+    ): Book {
         return Book(
             id = bookId,
             title = bookDetail.title,
@@ -91,7 +101,7 @@ object DataMapper {
         )
     }
 
-    fun tranformBookEntityToBook(bookEntity: BookEntity): Book {
+    fun transformBookEntityToBook(bookEntity: BookEntity): Book {
         return Book(
             id = bookEntity.id,
             title = bookEntity.title,
@@ -99,7 +109,26 @@ object DataMapper {
             price = bookEntity.price,
             url = bookEntity.url,
             image = bookEntity.image,
-            isFavorite = bookEntity.isFavorite
         )
     }
+
+    fun transformBookToFavoriteBookEntity(book: Book): FavoriteBookEntity {
+        return FavoriteBookEntity(
+            id = book.id,
+            title = book.title,
+            subtitle = book.subtitle,
+            price = book.price,
+            url = book.url,
+            image = book.image,
+        )
+    }
+
+    fun transformFavoriteBookEntityToBook(favoriteBookEntity: FavoriteBookEntity): Book = Book(
+        id = favoriteBookEntity.id,
+        title = favoriteBookEntity.title,
+        subtitle = favoriteBookEntity.subtitle,
+        price = favoriteBookEntity.price,
+        url = favoriteBookEntity.url,
+        image = favoriteBookEntity.image,
+    )
 }
