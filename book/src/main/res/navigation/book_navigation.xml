@@ -29,18 +29,4 @@
         <deepLink app:uri="books-app://book-detail/{BOOK_ID}" />
 
     </fragment>
-
-    <fragment
-        android:id="@+id/search_books"
-        android:name="id.myone.capstone_books_store.search_book.presentation.search.SearchFragment"
-        android:label="search-book"
-        tools:layout="@layout/fragment_search">
-        <action
-            android:id="@+id/action_search_books_to_book_details"
-            app:destination="@id/book_details">
-            <argument
-                android:name="BOOK_ID"
-                app:argType="string" />
-        </action>
-    </fragment>
 </navigation>

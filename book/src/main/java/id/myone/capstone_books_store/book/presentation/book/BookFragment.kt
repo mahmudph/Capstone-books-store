@@ -2,6 +2,7 @@ package id.myone.capstone_books_store.book.presentation.book
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import id.myone.capstone_books_store.book.presentation.detailBook.DetailBookFrag
 import id.myone.core.adapter.BookListAdapter
 import id.myone.core.domain.entity.Book
 import id.myone.core.domain.utils.Result
+import id.myone.core.utils.DynamicFeatureManagerUtility
 import org.koin.android.ext.android.inject
 
 private val loadFeatures by lazy { provideModuleDependencies() }
@@ -25,10 +27,27 @@ private fun injectFeatures() = loadFeatures
 class BookFragment : Fragment(), BookListAdapter.OnClickItemBookList {
 
     private val bookViewModel: BookViewModel by inject()
+    private val moduleUtility: DynamicFeatureManagerUtility by inject()
 
     private lateinit var fragmentBookBinding: FragmentBookBinding
     private lateinit var bookListAdapter: BookListAdapter
 
+
+    private val moduleUtilityCallback =
+        object : DynamicFeatureManagerUtility.SplitInstallManagerCallback {
+            override fun onInstallInProgress(progress: Int) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onSuccess() {
+                TODO("Not yet implemented")
+            }
+
+            override fun onError(e: Exception) {
+                TODO("Not yet implemented")
+            }
+
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +61,7 @@ class BookFragment : Fragment(), BookListAdapter.OnClickItemBookList {
 
         bookListAdapter = BookListAdapter()
         bookListAdapter.setOnClickListener(this)
+        moduleUtility.setSplitInstallerCallback(moduleUtilityCallback)
         fragmentBookBinding = FragmentBookBinding.inflate(inflater, container, false)
         return fragmentBookBinding.root
 
@@ -65,11 +85,28 @@ class BookFragment : Fragment(), BookListAdapter.OnClickItemBookList {
 
         fragmentBookBinding.searchBookPanel.setOnTouchListener { _, _ ->
 
-            val searchBook = NavDeepLinkRequest.Builder
-                .fromUri("books-app://search".toUri())
-                .build()
+            moduleUtility.setSplitInstallerCallback(object :
+                DynamicFeatureManagerUtility.SplitInstallManagerCallback {
+                override fun onInstallInProgress(progress: Int) {
+                    Log.i(this@BookFragment.javaClass.name, progress.toString())
+                }
 
-            findNavController().navigate(searchBook)
+                override fun onSuccess() {
+                    val searchBook = NavDeepLinkRequest.Builder
+                        .fromUri("books-app://search".toUri())
+                        .build()
+
+                    findNavController().navigate(searchBook)
+                }
+
+                override fun onError(e: Exception) {
+                    e.printStackTrace()
+                    Log.e(this@BookFragment.javaClass.name, e.toString())
+                }
+            })
+
+            moduleUtility.installModule("search_book")
+
             return@setOnTouchListener true
         }
 
@@ -77,7 +114,7 @@ class BookFragment : Fragment(), BookListAdapter.OnClickItemBookList {
 
     private fun requestDataFromServer() {
         bookViewModel.bookList.observe(viewLifecycleOwner) {
-             when (it) {
+            when (it) {
                 is Result.Loading -> showLoading()
                 is Result.Error -> showOnError()
                 is Result.Success -> showOnSuccess(it.data!!)
