@@ -1,8 +1,3 @@
-/**
- * Created by Mahmud on 15/01/23.
- * mahmud120398@gmail.com
- */
-
 package id.myone.core.data.source.local.entity
 
 import androidx.room.ColumnInfo
@@ -10,8 +5,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 
-@Entity(tableName = "tbl_books")
-data class BookEntity(
+@Entity(tableName = "tbl_favorite_book")
+data class FavoriteBookEntity(
     @PrimaryKey @ColumnInfo(name = "id") val id: String,
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "subtitle") val subtitle: String,

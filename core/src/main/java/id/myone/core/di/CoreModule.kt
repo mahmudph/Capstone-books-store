@@ -21,6 +21,7 @@ import org.koin.dsl.module
 
 val databaseModule = module {
     factory { get<BookDatabase>().booksDao() }
+    factory { get<BookDatabase>().favoriteBookDao() }
 
     single {
         Room.databaseBuilder(
@@ -36,7 +37,7 @@ val networkModule = module {
 }
 
 val repositoryModule = module {
-    single { LocalDataSource(get()) }
+    single { LocalDataSource(get(), get()) }
     single { RemoteDataSource(get()) }
     factory { AppExecutors() }
     single<Repository> { RepositoryImpl(get(), get(), get()) }
