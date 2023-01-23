@@ -18,5 +18,4 @@ data class BookEntity(
     @ColumnInfo(name = "price") val price: String,
     @ColumnInfo(name = "image") val image: String,
     @ColumnInfo(name = "url") val url: String,
-    @ColumnInfo(name = "is_favorite") val isFavorite: Boolean = false,
 )

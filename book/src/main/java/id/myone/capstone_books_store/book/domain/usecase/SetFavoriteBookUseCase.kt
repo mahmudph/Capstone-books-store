@@ -15,16 +15,8 @@ class SetFavoriteBookUseCase(private val repository: Repository) {
     suspend operator fun invoke(
         bookId: String,
         bookDetail: BookDetail,
-        value: Boolean
     ): Result<String> {
-
         val book = DataMapper.transformFromBookDetailToBook(bookDetail, bookId)
-        book.isFavorite = value
-
-        ///  check if book is exist
-        /// when exist then perform update otherwise insert
-        val existBook = repository.getBookById(bookId)
-        if (existBook != null) return repository.updateBook(book)
-        return repository.insertBook(book)
+        return repository.insertFavoriteBook(book)
     }
 }
