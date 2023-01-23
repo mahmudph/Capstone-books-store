@@ -7,11 +7,10 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.net.toUri
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -32,7 +31,6 @@ class SearchFragment : Fragment(), BookListAdapter.OnClickItemBookList {
     private val searchViewModel: SearchViewModel by inject()
 
     private lateinit var adapter: BookListAdapter
-    private lateinit var inputManager: InputMethodManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,25 +50,30 @@ class SearchFragment : Fragment(), BookListAdapter.OnClickItemBookList {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchViewModel.searchBookResult.observe(viewLifecycleOwner) {
-            when (it) {
 
-                is Result.Loading -> this.showLoading()
-                is Result.Error -> this.setVisibility(View.VISIBLE, View.GONE)
-                is Result.Success -> {
-                    if (it.data!!.isEmpty()) {
-                        searchBinding.apply {
-                            searchInformation.visibility = View.VISIBLE
-                            loading.loadingContent.visibility = View.GONE
-                            bookSearchList.visibility = View.GONE
+        searchViewModel.searchBookResult.observe(viewLifecycleOwner) { data ->
+            data.asLiveData().observe(viewLifecycleOwner) {
+                when (it) {
+                    is Result.Loading -> this@SearchFragment.showLoading()
+                    is Result.Error -> this@SearchFragment.setVisibility(
+                        View.VISIBLE,
+                        View.GONE
+                    )
+                    is Result.Success -> {
+                        if (it.data!!.isEmpty()) {
+                            searchBinding.apply {
+                                searchInformation.visibility = View.VISIBLE
+                                loading.loadingContent.visibility = View.GONE
+                                bookSearchList.visibility = View.GONE
 
-                            title.text = getString(R.string.data_not_found)
-                            subTitle.text = getString(R.string.data_not_found_desc)
+                                title.text = getString(R.string.data_not_found)
+                                subTitle.text = getString(R.string.data_not_found_desc)
+                            }
+
+                        } else {
+                            adapter.setData(it.data!!)
+                            this@SearchFragment.setVisibility(View.GONE, View.VISIBLE)
                         }
-
-                    } else {
-                        adapter.setData(it.data!!)
-                        this.setVisibility(View.GONE, View.VISIBLE)
                     }
                 }
             }
@@ -108,11 +111,6 @@ class SearchFragment : Fragment(), BookListAdapter.OnClickItemBookList {
         adapter.setOnClickListener(this)
         searchBinding.bookSearchList.adapter = adapter
         searchBinding.bookSearchList.layoutManager = GridLayoutManager(context, 2)
-
-        inputManager = getSystemService(
-            requireContext(),
-            InputMethodManager::class.java
-        ) as InputMethodManager
     }
 
     private fun setVisibility(showError: Int = View.VISIBLE, showBookResult: Int = View.GONE) {
@@ -128,8 +126,6 @@ class SearchFragment : Fragment(), BookListAdapter.OnClickItemBookList {
         searchBinding.apply {
             if (searchField.text.trim().isNotEmpty()) {
                 searchField.text.let {
-                    inputManager.hideSoftInputFromWindow(searchField.windowToken, 0)
-
                     searchInformation.visibility = View.GONE
                     loading.loadingContent.visibility = View.VISIBLE
                     bookSearchList.visibility = View.GONE

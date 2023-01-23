@@ -20,7 +20,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import java.net.SocketException
 
 class RepositoryImpl(
     private val localDatasource: LocalDataSource,
@@ -58,28 +57,33 @@ class RepositoryImpl(
         }
     }
 
-    override suspend fun searchBooks(query: String, page: String): Result<List<Book>> {
-        return try {
-            val response = remoteDataSource.searchBook(query, page)
-            Result.Success(DataMapper.mapBookModelToBookDomain(response.books))
-        } catch (e: SocketException) {
-            Result.Error(message = noInternetConnectionError)
-        } catch (e: Exception) {
-            Result.Error(message = defaultErrorMessage)
+    override fun searchBooks(query: String, page: String): Flow<Result<List<Book>>> = flow {
+
+        when (val response = remoteDataSource.searchBook(query, page)) {
+            is ApiResponse.Error -> emit(Result.Error(message = response.errorMessage))
+            is ApiResponse.Empty -> emit(Result.Success(emptyList()))
+            is ApiResponse.Success -> {
+                val data = DataMapper.mapBookModelToBookDomain(response.data.books)
+                emit(Result.Success(data))
+            }
         }
     }
 
     override fun getDetailBook(id: String): Flow<Result<BookDetail>> = flow {
-        try {
-            emit(Result.Loading())
-            val response = remoteDataSource.getDetailBook(id)
-            emit(Result.Success(DataMapper.transformDetailBookToDetailBookDomain(response)))
-        } catch (e: SocketException) {
-            emit(Result.Error(message = noInternetConnectionError))
-        } catch (e: Exception) {
-            e.printStackTrace()
-            emit(Result.Error(message = defaultErrorMessage))
+
+        emit(Result.Loading())
+
+        when (val response = remoteDataSource.getDetailBook(id)) {
+            is ApiResponse.Success -> {
+                val data = DataMapper.transformDetailBookToDetailBookDomain(response.data)
+                emit(Result.Success(data))
+            }
+            is ApiResponse.Error -> {
+                emit(Result.Error(response.errorMessage))
+            }
+            else -> emit(Result.Error(defaultErrorMessage))
         }
+
     }.flowOn(Dispatchers.IO)
 
     override suspend fun insertBook(book: Book): Result<String> {

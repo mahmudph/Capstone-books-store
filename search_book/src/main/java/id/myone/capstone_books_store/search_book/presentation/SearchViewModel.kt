@@ -29,4 +29,5 @@ class SearchViewModel(private val searchBookUseCase: SearchBookUseCase) : ViewMo
         page = pageIn
         queryChannel.value = query
     }
+
 }

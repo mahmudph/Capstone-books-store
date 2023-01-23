@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import java.net.SocketException
 
 class RemoteDataSource(private val apiServices: ApiServices) {
     suspend fun getBookList(): Flow<ApiResponse<List<BookModel>>> = flow {
@@ -26,11 +27,27 @@ class RemoteDataSource(private val apiServices: ApiServices) {
         }
     }.flowOn(Dispatchers.IO)
 
-    suspend fun getDetailBook(id: String): DetailBooksResponse {
-        return apiServices.getDetailBook(id)
+    suspend fun getDetailBook(id: String): ApiResponse<DetailBooksResponse> {
+        return try {
+            val result = apiServices.getDetailBook(id)
+            ApiResponse.Success(result)
+        } catch (e: SocketException) {
+            ApiResponse.Error("failed to connect service, please try again")
+        } catch (e: Exception) {
+            ApiResponse.Error("failed to get detail book")
+        }
+
     }
 
-    suspend fun searchBook(query: String, page: String): ListBooksResponse {
-        return apiServices.searchBook(query, page)
+    suspend fun searchBook(query: String, page: String): ApiResponse<ListBooksResponse> {
+        return try {
+            val result = apiServices.searchBook(query, page)
+            if (result.books.isNotEmpty()) ApiResponse.Success(result)
+            else ApiResponse.Empty
+        } catch (e: SocketException) {
+            ApiResponse.Error("failed to connect service, please try again")
+        } catch (e: Exception) {
+            ApiResponse.Error("failed to search a book")
+        }
     }
 }
