@@ -104,7 +104,7 @@ class DetailBookFragment : Fragment() {
 
     private fun setFavoriteBook() {
         bookDetailTemp?.let {
-            detailBookViewModel.setFavoriteBook(bookId, it)
+            detailBookViewModel.setFavoriteBook(bookId, it, !isFavoriteBook)
                 .observe(viewLifecycleOwner) {
                     this.getBookFavoriteStatus()
                 }
