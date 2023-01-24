@@ -14,8 +14,8 @@ import id.myone.core.adapter.BookListAdapter
 import id.myone.favorite.databinding.FragmentFavoriteBinding
 import org.koin.android.ext.android.inject
 
-private val loadFeatures by lazy { provideModuleDependencies() }
-private fun injectFeatures() = loadFeatures
+val loadFeatures by lazy { provideModuleDependencies() }
+fun injectFeatures() = loadFeatures
 
 class FavoriteFragment : Fragment(), BookListAdapter.OnClickItemBookList {
 

@@ -21,8 +21,8 @@ import id.myone.core.domain.utils.Result
 import org.koin.android.ext.android.inject
 
 
-private val loadFeatures by lazy { provideModuleDependencies() }
-private fun injectFeatures() = loadFeatures
+val loadFeatures by lazy { provideModuleDependencies() }
+fun injectFeatures() = loadFeatures
 
 class SearchFragment : Fragment(), BookListAdapter.OnClickItemBookList {
 

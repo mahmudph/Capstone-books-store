@@ -9,6 +9,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import id.myone.capstone_books_store.book.domain.usecase.GetBookListUseCase
 
-class BookViewModel(private val getBookListUseCase: GetBookListUseCase) : ViewModel() {
+class BookViewModel(getBookListUseCase: GetBookListUseCase) : ViewModel() {
     val bookList = getBookListUseCase().asLiveData()
 }
