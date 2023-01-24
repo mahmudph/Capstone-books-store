@@ -15,8 +15,10 @@ class SetFavoriteBookUseCase(private val repository: Repository) {
     suspend operator fun invoke(
         bookId: String,
         bookDetail: BookDetail,
+        value: Boolean,
     ): Result<String> {
         val book = DataMapper.transformFromBookDetailToBook(bookDetail, bookId)
-        return repository.insertFavoriteBook(book)
+        return if (value) repository.insertFavoriteBook(book)
+        else repository.deleteFavoriteBook(bookId)
     }
 }
