@@ -55,7 +55,7 @@ class DetailBookFragment : Fragment() {
             setFavoriteBook()
         }
 
-        this.loadDetailBook()
+        this.loadDetailBook(savedInstanceState)
     }
 
     private fun showLoading() {
@@ -63,8 +63,8 @@ class DetailBookFragment : Fragment() {
         binding.loading.loadingContent.visibility = View.VISIBLE
     }
 
-    private fun loadDetailBook() {
-        detailBookViewModel.loadBookDetail(bookId).observe(viewLifecycleOwner) {
+    private fun loadDetailBook(savedInstanceState: Bundle?) {
+        detailBookViewModel.bookDetails.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Loading -> showLoading()
                 is Result.Error -> showErrorMessage()
@@ -72,6 +72,7 @@ class DetailBookFragment : Fragment() {
             }
         }
 
+        if (savedInstanceState == null) detailBookViewModel.loadBookDetail(bookId)
         this.getBookFavoriteStatus()
 
     }

@@ -1,7 +1,9 @@
 package id.myone.capstone_books_store.search_book.presentation
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -10,6 +12,7 @@ import android.view.inputmethod.EditorInfo
 import androidx.core.net.toUri
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -18,6 +21,7 @@ import id.myone.capstone_books_store.search_book.databinding.FragmentSearchBindi
 import id.myone.capstone_books_store.search_book.di.provideModuleDependencies
 import id.myone.core.adapter.BookListAdapter
 import id.myone.core.domain.utils.Result
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 
@@ -36,6 +40,11 @@ class SearchFragment : Fragment(), BookListAdapter.OnClickItemBookList {
         injectFeatures()
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        Log.i(this.javaClass.name, "configuration is changes")
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,7 +58,7 @@ class SearchFragment : Fragment(), BookListAdapter.OnClickItemBookList {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchViewModel.searchResultLiveData.observe(viewLifecycleOwner) { res ->
+        searchViewModel.resultBookList.observe(viewLifecycleOwner) { res ->
             when (res) {
                 is Result.Loading -> this@SearchFragment.showLoading()
                 is Result.Error -> this@SearchFragment.setVisibility(
@@ -78,7 +87,7 @@ class SearchFragment : Fragment(), BookListAdapter.OnClickItemBookList {
         searchBinding.searchField.setOnTouchListener(View.OnTouchListener { v, event ->
             if (event?.action == MotionEvent.ACTION_UP) {
                 if (event.rawX >= v!!.right - searchBinding.searchField.compoundDrawables[2].bounds.width()) {
-                    this@SearchFragment.searchBook()
+                    this.searchBook()
                     return@OnTouchListener true
                 }
             }
@@ -125,8 +134,9 @@ class SearchFragment : Fragment(), BookListAdapter.OnClickItemBookList {
                     searchInformation.visibility = View.GONE
                     loading.loadingContent.visibility = View.VISIBLE
                     bookSearchList.visibility = View.GONE
-
-                    searchViewModel.searchBook(it.trim().toString())
+                    lifecycleScope.launch {
+                        searchViewModel.queryChannel.value = it.trim().toString()
+                    }
                 }
             }
         }

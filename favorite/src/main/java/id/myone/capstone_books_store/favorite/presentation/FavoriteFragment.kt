@@ -50,7 +50,7 @@ class FavoriteFragment : Fragment(), BookListAdapter.OnClickItemBookList {
     }
 
     private fun provideFavoriteBooks() {
-        favoriteViewModel.favoriteBookList.observe(viewLifecycleOwner) {
+        favoriteViewModel.getFavoriteBookList.observe(viewLifecycleOwner) {
             binding.loading.loadingContent.visibility = View.GONE
 
             if(it.isNotEmpty()) {

@@ -113,7 +113,7 @@ class BookFragment : Fragment(), BookListAdapter.OnClickItemBookList {
     }
 
     private fun requestDataFromServer() {
-        bookViewModel.bookList.observe(viewLifecycleOwner) {
+        bookViewModel.bookListData.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Loading -> showLoading()
                 is Result.Error -> showOnError()
