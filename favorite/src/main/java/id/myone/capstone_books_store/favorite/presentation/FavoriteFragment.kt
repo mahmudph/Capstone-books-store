@@ -14,8 +14,8 @@ import id.myone.core.adapter.BookListAdapter
 import id.myone.favorite.databinding.FragmentFavoriteBinding
 import org.koin.android.ext.android.inject
 
-private val loadFeatures by lazy { provideModuleDependencies() }
-private fun injectFeatures() = loadFeatures
+val loadFeatures by lazy { provideModuleDependencies() }
+fun injectFeatures() = loadFeatures
 
 class FavoriteFragment : Fragment(), BookListAdapter.OnClickItemBookList {
 
@@ -50,7 +50,7 @@ class FavoriteFragment : Fragment(), BookListAdapter.OnClickItemBookList {
     }
 
     private fun provideFavoriteBooks() {
-        favoriteViewModel.favoriteBookList.observe(viewLifecycleOwner) {
+        favoriteViewModel.getFavoriteBookList.observe(viewLifecycleOwner) {
             binding.loading.loadingContent.visibility = View.GONE
 
             if(it.isNotEmpty()) {

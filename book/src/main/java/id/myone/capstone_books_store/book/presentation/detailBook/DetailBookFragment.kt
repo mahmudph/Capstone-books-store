@@ -15,8 +15,8 @@ import id.myone.core.domain.entity.BookDetail
 import id.myone.core.domain.utils.Result
 import org.koin.android.ext.android.inject
 
-private val loadFeatures by lazy { provideModuleDependencies() }
-private fun injectFeatures() = loadFeatures
+val loadFeatures by lazy { provideModuleDependencies() }
+fun injectFeatures() = loadFeatures
 
 class DetailBookFragment : Fragment() {
     private lateinit var binding: FragmentDetailBookBinding
@@ -55,7 +55,7 @@ class DetailBookFragment : Fragment() {
             setFavoriteBook()
         }
 
-        this.loadDetailBook()
+        this.loadDetailBook(savedInstanceState)
     }
 
     private fun showLoading() {
@@ -63,8 +63,8 @@ class DetailBookFragment : Fragment() {
         binding.loading.loadingContent.visibility = View.VISIBLE
     }
 
-    private fun loadDetailBook() {
-        detailBookViewModel.loadBookDetail(bookId).observe(viewLifecycleOwner) {
+    private fun loadDetailBook(savedInstanceState: Bundle?) {
+        detailBookViewModel.bookDetails.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Loading -> showLoading()
                 is Result.Error -> showErrorMessage()
@@ -72,6 +72,7 @@ class DetailBookFragment : Fragment() {
             }
         }
 
+        if (savedInstanceState == null) detailBookViewModel.loadBookDetail(bookId)
         this.getBookFavoriteStatus()
 
     }

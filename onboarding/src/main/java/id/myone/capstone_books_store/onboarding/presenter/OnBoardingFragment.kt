@@ -1,20 +1,14 @@
 package id.myone.capstone_books_store.onboarding.presenter
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.ORIENTATION_HORIZONTAL
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import id.myone.capstone_books_store.onboarding.adapter.SliderAdapter
@@ -25,8 +19,8 @@ import id.myone.onboarding.databinding.FragmentOnBoardingBinding
 import org.koin.android.ext.android.inject
 
 
-private val loadFeatures by lazy { provideModuleDependencies() }
-private fun injectFeatures() = loadFeatures
+val loadFeatures by lazy { provideModuleDependencies() }
+fun injectFeatures() = loadFeatures
 
 
 class OnBoardingFragment : Fragment(), OnClickListener {

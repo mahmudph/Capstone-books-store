@@ -21,6 +21,6 @@
     <string name="pages_count">%1$s Pages</string>
     <string name="author_by">By %1$s</string>
     <string name="back">back</string>
-    <string name="gathering">Hi...</string>
+    <string name="gathering">Hi…</string>
     <string name="welcome">Welcome back to the book store.</string>
 </resources>

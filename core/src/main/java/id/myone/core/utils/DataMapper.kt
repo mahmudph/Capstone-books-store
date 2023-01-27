@@ -64,17 +64,6 @@ object DataMapper {
         )
     }
 
-    fun transformBookDomainToEntity(book: Book): BookEntity {
-        return BookEntity(
-            id = book.id,
-            title = book.title,
-            subtitle = book.subtitle,
-            image = book.image,
-            price = book.price,
-            url = book.url,
-        )
-    }
-
     fun transformBookModelToEntity(book: BookModel): BookEntity {
         return BookEntity(
             id = book.isbn13,
@@ -123,7 +112,7 @@ object DataMapper {
         )
     }
 
-    fun transformFavoriteBookEntityToBook(favoriteBookEntity: FavoriteBookEntity): Book = Book(
+    private fun transformFavoriteBookEntityToBook(favoriteBookEntity: FavoriteBookEntity): Book = Book(
         id = favoriteBookEntity.id,
         title = favoriteBookEntity.title,
         subtitle = favoriteBookEntity.subtitle,

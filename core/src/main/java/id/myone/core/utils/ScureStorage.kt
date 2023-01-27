@@ -14,15 +14,6 @@ class SecureStorageApp(private val sharedPreferences: SharedPreferences) {
         sharedPreferences.edit()
     }
 
-    fun setStringValue(key: String, value: String) {
-        editSharePreferences.putString(key, value)
-        editSharePreferences.apply()
-    }
-
-    fun getStringValue(key: String): String? {
-        return sharedPreferences.getString(key, null)
-    }
-
     fun setBoolValue(key: String, value: Boolean) {
         editSharePreferences.putBoolean(key, value)
         editSharePreferences.apply()
