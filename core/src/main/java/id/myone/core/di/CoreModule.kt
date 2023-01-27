@@ -15,6 +15,8 @@ import id.myone.core.domain.repository.Repository
 import id.myone.core.utils.AppExecutors
 import id.myone.core.utils.DynamicFeatureManagerUtility
 import id.myone.core.utils.SecureStorageApp
+import net.sqlcipher.database.SQLiteDatabase
+import net.sqlcipher.database.SupportFactory
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
@@ -24,9 +26,15 @@ val databaseModule = module {
     factory { get<BookDatabase>().favoriteBookDao() }
 
     single {
+
+        val passphrase = SQLiteDatabase.getBytes("book-store".toCharArray())
+        val factory = SupportFactory(passphrase)
+
         Room.databaseBuilder(
             androidContext(), BookDatabase::class.java, "db_book_store.db",
-        ).fallbackToDestructiveMigration().build()
+        ).fallbackToDestructiveMigration()
+            .openHelperFactory(factory)
+            .build()
     }
 }
 
