@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">api.itbook.store</domain>
+        <pin-set expiration="2024-12-24">
+            <pin digest="SHA-256">dCxVwEBZptswd/OhsO4rGsu1Q4v/78CmUja/VP3jPgI=</pin>
+            <pin digest="SHA-256">dCxVwEBZptswd/OhsO4rGsu1Q4v/78CmUja/VP3jPgI=</pin>
+        </pin-set>
+    </domain-config>
+</network-security-config>

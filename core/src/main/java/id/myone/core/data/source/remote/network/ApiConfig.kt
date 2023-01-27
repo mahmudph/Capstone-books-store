@@ -6,6 +6,7 @@
 package id.myone.core.data.source.remote.network
 
 import id.myone.core.BuildConfig
+import okhttp3.CertificatePinner
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -19,10 +20,16 @@ object ApiConfig {
         } else {
             HttpLoggingInterceptor.Level.NONE
         }
+
+        val certification = CertificatePinner.Builder()
+            .add(BuildConfig.BASE_URL.replace("https://", ""), BuildConfig.DIGEST_PIN)
+            .build()
+
         return OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().setLevel(interceptorLevel))
             .connectTimeout(120, TimeUnit.SECONDS)
             .readTimeout(120, TimeUnit.SECONDS)
+            .certificatePinner(certification)
             .build()
     }
 
