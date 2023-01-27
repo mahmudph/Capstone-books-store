@@ -1,7 +1,7 @@
 on:
   push:
   pull_request:
-      types: [opened]
+    types: [opened]
 
 jobs:
   test:
@@ -19,13 +19,13 @@ jobs:
 
       - name: Caching Gradle packages
         uses: actions/cache@v2
-          with:
-            path: |
-              ~/.gradle/caches
-              ~/.gradle/wrapper
-            key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-            restore-keys: |
-              ${{ runner.os }}-gradle-
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
       - name: Run Testing
         run: ./gradlew test
