@@ -29,25 +29,9 @@ class BookFragment : Fragment(), BookListAdapter.OnClickItemBookList {
     private val bookViewModel: BookViewModel by inject()
     private val moduleUtility: DynamicFeatureManagerUtility by inject()
 
-    private lateinit var fragmentBookBinding: FragmentBookBinding
-    private lateinit var bookListAdapter: BookListAdapter
+    private var fragmentBookBinding: FragmentBookBinding? = null
+    private var bookListAdapter: BookListAdapter? = null
 
-
-    private val moduleUtilityCallback =
-        object : DynamicFeatureManagerUtility.SplitInstallManagerCallback {
-            override fun onInstallInProgress(progress: Int) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onSuccess() {
-                TODO("Not yet implemented")
-            }
-
-            override fun onError(e: Exception) {
-                TODO("Not yet implemented")
-            }
-
-        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,10 +44,9 @@ class BookFragment : Fragment(), BookListAdapter.OnClickItemBookList {
     ): View {
 
         bookListAdapter = BookListAdapter()
-        bookListAdapter.setOnClickListener(this)
-        moduleUtility.setSplitInstallerCallback(moduleUtilityCallback)
+        bookListAdapter?.setOnClickListener(this)
         fragmentBookBinding = FragmentBookBinding.inflate(inflater, container, false)
-        return fragmentBookBinding.root
+        return fragmentBookBinding!!.root
 
     }
 
@@ -72,43 +55,45 @@ class BookFragment : Fragment(), BookListAdapter.OnClickItemBookList {
         super.onViewCreated(view, savedInstanceState)
         this.requestDataFromServer()
 
+        fragmentBookBinding?.also {
+            it.booksList.setHasFixedSize(true)
+            it.booksList.layoutManager = GridLayoutManager(context, 2)
+            it.booksList.adapter = bookListAdapter
 
-        with(fragmentBookBinding) {
-            booksList.setHasFixedSize(true)
-            booksList.layoutManager = GridLayoutManager(context, 2)
-            this.booksList.adapter = bookListAdapter
+
+
+            it.refreshBookList.setOnRefreshListener {
+                this.requestDataFromServer()
+            }
+
+            it.searchBookPanel.setOnTouchListener { _, _ ->
+
+                moduleUtility.setSplitInstallerCallback(object :
+                    DynamicFeatureManagerUtility.SplitInstallManagerCallback {
+                    override fun onInstallInProgress(progress: Int) {
+                        Log.i(this@BookFragment.javaClass.name, progress.toString())
+                    }
+
+                    override fun onSuccess() {
+                        val searchBook = NavDeepLinkRequest.Builder
+                            .fromUri("books-app://search".toUri())
+                            .build()
+
+                        findNavController().navigate(searchBook)
+                    }
+
+                    override fun onError(e: Exception) {
+                        e.printStackTrace()
+                        Log.e(this@BookFragment.javaClass.name, e.toString())
+                    }
+                })
+
+                moduleUtility.installModule("search_book")
+
+                return@setOnTouchListener true
+            }
         }
 
-        fragmentBookBinding.refreshBookList.setOnRefreshListener {
-            this.requestDataFromServer()
-        }
-
-        fragmentBookBinding.searchBookPanel.setOnTouchListener { _, _ ->
-
-            moduleUtility.setSplitInstallerCallback(object :
-                DynamicFeatureManagerUtility.SplitInstallManagerCallback {
-                override fun onInstallInProgress(progress: Int) {
-                    Log.i(this@BookFragment.javaClass.name, progress.toString())
-                }
-
-                override fun onSuccess() {
-                    val searchBook = NavDeepLinkRequest.Builder
-                        .fromUri("books-app://search".toUri())
-                        .build()
-
-                    findNavController().navigate(searchBook)
-                }
-
-                override fun onError(e: Exception) {
-                    e.printStackTrace()
-                    Log.e(this@BookFragment.javaClass.name, e.toString())
-                }
-            })
-
-            moduleUtility.installModule("search_book")
-
-            return@setOnTouchListener true
-        }
 
     }
 
@@ -123,24 +108,35 @@ class BookFragment : Fragment(), BookListAdapter.OnClickItemBookList {
     }
 
     private fun showLoading() {
-        fragmentBookBinding.loading.loadingContent.visibility = View.VISIBLE
+        fragmentBookBinding!!.loading.loadingContent.visibility = View.VISIBLE
     }
 
     private fun showOnSuccess(bookList: List<Book>) {
-        bookListAdapter.setData(bookList)
-        fragmentBookBinding.refreshBookList.isRefreshing = false
-        fragmentBookBinding.booksList.visibility = View.VISIBLE
-        fragmentBookBinding.loading.loadingContent.visibility = View.GONE
+        bookListAdapter?.setData(bookList)
+
+        fragmentBookBinding?.also {
+            it.refreshBookList.isRefreshing = false
+            it.booksList.visibility = View.VISIBLE
+            it.loading.loadingContent.visibility = View.GONE
+        }
     }
 
     private fun showOnError() {
-        fragmentBookBinding.booksList.visibility = View.GONE
-        fragmentBookBinding.info.information.visibility = View.VISIBLE
-        fragmentBookBinding.loading.loadingContent.visibility = View.GONE
+        fragmentBookBinding?.also {
+            it.booksList.visibility = View.GONE
+            it.info.information.visibility = View.VISIBLE
+            it.loading.loadingContent.visibility = View.GONE
+        }
     }
 
     override fun onPressItem(bookId: String) {
         val bundle = Bundle().apply { putString(DetailBookFragment.BOOK_ID, bookId) }
         findNavController().navigate(R.id.action_bookFragment_to_detailBookFragment, args = bundle)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        fragmentBookBinding = null
+        bookListAdapter = null
     }
 }

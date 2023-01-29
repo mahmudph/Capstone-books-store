@@ -25,8 +25,8 @@ fun injectFeatures() = loadFeatures
 
 class OnBoardingFragment : Fragment(), OnClickListener {
 
-    private lateinit var binding: FragmentOnBoardingBinding
-    private lateinit var sliderAdapter: SliderAdapter
+    private var binding: FragmentOnBoardingBinding? = null
+    private var sliderAdapter: SliderAdapter? = null
 
     private lateinit var sliderDataList: Array<SliderData>
 
@@ -40,17 +40,17 @@ class OnBoardingFragment : Fragment(), OnClickListener {
             /**
              * set visibility of the previous btn
              */
-            binding.previous.visibility = if (position == 0) View.INVISIBLE else View.VISIBLE
+            binding!!.previous.visibility = if (position == 0) View.INVISIBLE else View.VISIBLE
 
 
             /**
              * should change next btn icon to done icon
              */
             if (position == sliderDataList.size - 1) {
-                binding.next.setImageResource(R.drawable.ic_baseline_check_circle_24)
+                binding!!.next.setImageResource(R.drawable.ic_baseline_check_circle_24)
 
             } else {
-                binding.next.setImageResource(R.drawable.ic_baseline_arrow_circle_right_24)
+                binding!!.next.setImageResource(R.drawable.ic_baseline_arrow_circle_right_24)
             }
             /**
              * change a dot indicator of the application intro
@@ -69,7 +69,7 @@ class OnBoardingFragment : Fragment(), OnClickListener {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentOnBoardingBinding.inflate(layoutInflater, container, false)
-        return binding.root
+        return binding!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -78,13 +78,15 @@ class OnBoardingFragment : Fragment(), OnClickListener {
 
         sliderAdapter = SliderAdapter(requireActivity(), sliderDataList)
 
-        binding.viewPager.adapter = sliderAdapter
-        binding.viewPager.orientation = ORIENTATION_HORIZONTAL
+        with(binding!!) {
+            viewPager.adapter = sliderAdapter
+            viewPager.orientation = ORIENTATION_HORIZONTAL
 
-        binding.viewPager.registerOnPageChangeCallback(pageChangeCallback)
+            viewPager.registerOnPageChangeCallback(pageChangeCallback)
 
-        binding.next.setOnClickListener(this)
-        binding.previous.setOnClickListener(this)
+            next.setOnClickListener(this@OnBoardingFragment)
+            previous.setOnClickListener(this@OnBoardingFragment)
+        }
     }
 
     private fun provideSliderData(): Array<SliderData> {
@@ -111,9 +113,9 @@ class OnBoardingFragment : Fragment(), OnClickListener {
     }
 
     private fun provideSliderDotIndicatorData(): Array<TextView> = arrayOf(
-        binding.dotFirst,
-        binding.dotSecond,
-        binding.dotThree
+        binding!!.dotFirst,
+        binding!!.dotSecond,
+        binding!!.dotThree
     )
 
 
@@ -134,12 +136,15 @@ class OnBoardingFragment : Fragment(), OnClickListener {
     }
 
     override fun onDestroyView() {
-        binding.viewPager.unregisterOnPageChangeCallback(pageChangeCallback)
         super.onDestroyView()
+        binding!!.viewPager.unregisterOnPageChangeCallback(pageChangeCallback)
+        binding?.viewPager?.adapter = null
+        sliderAdapter = null
+        binding = null
     }
 
     override fun onClick(v: View?) {
-        val currentItem = binding.viewPager.currentItem
+        val currentItem = binding!!.viewPager.currentItem
 
         when (v?.id) {
             R.id.next -> {
@@ -152,17 +157,16 @@ class OnBoardingFragment : Fragment(), OnClickListener {
                     }
                 } else {
                     if (currentItem < sliderDataList.size - 1) {
-                        binding.viewPager.currentItem = currentItem + 1
+                        binding!!.viewPager.currentItem = currentItem + 1
                     }
                 }
             }
 
             R.id.previous -> {
                 if (currentItem > 0) {
-                    binding.viewPager.currentItem = currentItem - 1
+                    binding!!.viewPager.currentItem = currentItem - 1
                 }
             }
         }
     }
-
 }

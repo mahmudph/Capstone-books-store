@@ -19,7 +19,8 @@ val loadFeatures by lazy { provideModuleDependencies() }
 fun injectFeatures() = loadFeatures
 
 class DetailBookFragment : Fragment() {
-    private lateinit var binding: FragmentDetailBookBinding
+
+    private var binding: FragmentDetailBookBinding? = null
     private val detailBookViewModel: DetailBookViewModel by inject()
 
     private var bookDetailTemp: BookDetail? = null
@@ -37,30 +38,28 @@ class DetailBookFragment : Fragment() {
     ): View {
 
         binding = FragmentDetailBookBinding.inflate(inflater, container, false)
-        return binding.root
+        return binding!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        binding.loading.loadingContent.visibility = View.VISIBLE
-        binding.contentBookDetail.visibility = View.GONE
+        binding?.also {
+            it.loading.loadingContent.visibility = View.VISIBLE
+            it.contentBookDetail.visibility = View.GONE
 
-        bookId = requireArguments().getString(BOOK_ID)!!
-
-        binding.backButton.setOnClickListener {
-            view.findNavController().popBackStack()
-        }
-
-        binding.addFavorite.setOnClickListener {
-            setFavoriteBook()
+            bookId = requireArguments().getString(BOOK_ID)!!
+            it.backButton.setOnClickListener { view.findNavController().popBackStack() }
+            it.addFavorite.setOnClickListener { setFavoriteBook() }
         }
 
         this.loadDetailBook(savedInstanceState)
     }
 
     private fun showLoading() {
-        binding.contentBookDetail.visibility = View.GONE
-        binding.loading.loadingContent.visibility = View.VISIBLE
+        binding?.also {
+            it.contentBookDetail.visibility = View.GONE
+            it.loading.loadingContent.visibility = View.VISIBLE
+        }
     }
 
     private fun loadDetailBook(savedInstanceState: Bundle?) {
@@ -83,20 +82,20 @@ class DetailBookFragment : Fragment() {
                 isFavoriteBook = isFavorite
 
                 val iconDrawable = if (isFavorite) {
-                    binding.addFavorite.text = getString(R.string.delete_favorite)
+                    binding!!.addFavorite.text = getString(R.string.delete_favorite)
                     ContextCompat.getDrawable(
                         requireContext(),
                         R.drawable.ic_baseline_favorite_24
                     )
                 } else {
-                    binding.addFavorite.text = getString(R.string.add_favorite)
+                    binding!!.addFavorite.text = getString(R.string.add_favorite)
                     ContextCompat.getDrawable(
                         requireContext(),
                         R.drawable.ic_baseline_favorite_border_24
                     )
                 }
 
-                binding.addFavorite.setCompoundDrawablesWithIntrinsicBounds(
+                binding!!.addFavorite.setCompoundDrawablesWithIntrinsicBounds(
                     iconDrawable, null, null, null,
                 )
             }
@@ -115,9 +114,9 @@ class DetailBookFragment : Fragment() {
     private fun showSuccessData(bookDetail: BookDetail) {
         bookDetailTemp = bookDetail
 
-        with(binding) {
+        with(binding!!) {
             loading.loadingContent.visibility = View.GONE
-            binding.contentBookDetail.visibility = View.VISIBLE
+            contentBookDetail.visibility = View.VISIBLE
 
             author.text = getString(R.string.author_by, bookDetail.authors.trim())
             bookTitle.text = bookDetail.title.trim()
@@ -138,9 +137,16 @@ class DetailBookFragment : Fragment() {
     }
 
     private fun showErrorMessage() {
-        binding.loading.loadingContent.visibility = View.GONE
-        binding.loading.loadingContent.visibility = View.GONE
-        binding.information.information.visibility = View.VISIBLE
+        binding?.also {
+            it.loading.loadingContent.visibility = View.GONE
+            it.loading.loadingContent.visibility = View.GONE
+            it.information.information.visibility = View.VISIBLE
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
     companion object {

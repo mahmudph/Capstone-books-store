@@ -33,6 +33,12 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+        <activity-alias
+            android:name="leakcanary.internal.activity.LeakLauncherActivity"
+            android:exported="true"
+            android:targetActivity="leakcanary.internal.activity.LeakActivity"
+            tools:node="merge" />
     </application>
 
 </manifest>

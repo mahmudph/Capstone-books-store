@@ -1,9 +1,7 @@
 package id.myone.capstone_books_store.search_book.presentation
 
 import android.annotation.SuppressLint
-import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -30,20 +28,16 @@ fun injectFeatures() = loadFeatures
 
 class SearchFragment : Fragment(), BookListAdapter.OnClickItemBookList {
 
-    private lateinit var searchBinding: FragmentSearchBinding
+    private var searchBinding: FragmentSearchBinding? = null
     private val searchViewModel: SearchViewModel by inject()
 
-    private lateinit var adapter: BookListAdapter
+    private var adapter: BookListAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectFeatures()
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        Log.i(this.javaClass.name, "configuration is changes")
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,7 +45,7 @@ class SearchFragment : Fragment(), BookListAdapter.OnClickItemBookList {
     ): View {
         searchBinding = FragmentSearchBinding.inflate(inflater, container, false)
         provideBookListAdapter()
-        return searchBinding.root
+        return searchBinding!!.root
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -67,7 +61,7 @@ class SearchFragment : Fragment(), BookListAdapter.OnClickItemBookList {
                 )
                 is Result.Success -> {
                     if (res.data!!.isEmpty()) {
-                        searchBinding.apply {
+                        searchBinding!!.apply {
                             searchInformation.visibility = View.VISIBLE
                             loading.loadingContent.visibility = View.GONE
                             bookSearchList.visibility = View.GONE
@@ -77,16 +71,16 @@ class SearchFragment : Fragment(), BookListAdapter.OnClickItemBookList {
                         }
 
                     } else {
-                        adapter.setData(res.data!!)
+                        adapter!!.setData(res.data!!)
                         this@SearchFragment.setVisibility(View.GONE, View.VISIBLE)
                     }
                 }
             }
         }
 
-        searchBinding.searchField.setOnTouchListener(View.OnTouchListener { v, event ->
+        searchBinding!!.searchField.setOnTouchListener(View.OnTouchListener { v, event ->
             if (event?.action == MotionEvent.ACTION_UP) {
-                if (event.rawX >= v!!.right - searchBinding.searchField.compoundDrawables[2].bounds.width()) {
+                if (event.rawX >= v!!.right - searchBinding!!.searchField.compoundDrawables[2].bounds.width()) {
                     this.searchBook()
                     return@OnTouchListener true
                 }
@@ -94,7 +88,7 @@ class SearchFragment : Fragment(), BookListAdapter.OnClickItemBookList {
             return@OnTouchListener false
         })
 
-        searchBinding.searchField.setOnEditorActionListener { _, eventId, _ ->
+        searchBinding!!.searchField.setOnEditorActionListener { _, eventId, _ ->
             if (eventId == EditorInfo.IME_ACTION_SEARCH) {
                 this.searchBook()
                 return@setOnEditorActionListener true
@@ -102,33 +96,37 @@ class SearchFragment : Fragment(), BookListAdapter.OnClickItemBookList {
             return@setOnEditorActionListener false
         }
 
-        searchBinding.searchField.addTextChangedListener {
+        searchBinding!!.searchField.addTextChangedListener {
             this.searchBook()
         }
     }
 
     private fun showLoading() {
-        searchBinding.loading.loadingContent.visibility = View.VISIBLE
+        searchBinding!!.loading.loadingContent.visibility = View.VISIBLE
     }
 
     private fun provideBookListAdapter() {
         adapter = BookListAdapter()
-        adapter.setOnClickListener(this)
-        searchBinding.bookSearchList.adapter = adapter
-        searchBinding.bookSearchList.layoutManager = GridLayoutManager(context, 2)
+        adapter!!.setOnClickListener(this)
+        searchBinding?.also {
+            it.bookSearchList.adapter = adapter
+            it.bookSearchList.layoutManager = GridLayoutManager(context, 2)
+        }
     }
 
     private fun setVisibility(showError: Int = View.VISIBLE, showBookResult: Int = View.GONE) {
-        searchBinding.info.information.visibility = showError
-        searchBinding.bookSearchList.visibility = showBookResult
-        searchBinding.loading.loadingContent.visibility = View.GONE
-        searchBinding.searchInformation.visibility = View.GONE
+        searchBinding?.also {
+            it.info.information.visibility = showError
+            it.bookSearchList.visibility = showBookResult
+            it.loading.loadingContent.visibility = View.GONE
+            it.searchInformation.visibility = View.GONE
+        }
     }
 
 
     private fun searchBook() {
 
-        searchBinding.apply {
+        searchBinding?.apply {
             if (searchField.text.trim().isNotEmpty()) {
                 searchField.text.let {
                     searchInformation.visibility = View.GONE
@@ -147,5 +145,11 @@ class SearchFragment : Fragment(), BookListAdapter.OnClickItemBookList {
             .fromUri("books-app://book-detail/$bookId".toUri())
             .build()
         findNavController().navigate(detailBooks)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        searchBinding = null
+        adapter = null
     }
 }

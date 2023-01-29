@@ -19,10 +19,10 @@ fun injectFeatures() = loadFeatures
 
 class FavoriteFragment : Fragment(), BookListAdapter.OnClickItemBookList {
 
-    private lateinit var binding: FragmentFavoriteBinding
+    private var binding: FragmentFavoriteBinding? = null
     private val favoriteViewModel: FavoriteViewModel by inject()
 
-    private lateinit var bookListAdapter: BookListAdapter
+    private var bookListAdapter: BookListAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,12 +35,12 @@ class FavoriteFragment : Fragment(), BookListAdapter.OnClickItemBookList {
     ): View {
         binding = FragmentFavoriteBinding.inflate(inflater, container, false)
         bookListAdapter = BookListAdapter()
-        bookListAdapter.setOnClickListener(this)
-        return binding.root
+        bookListAdapter?.setOnClickListener(this)
+        return binding!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        with(binding.booksList) {
+        with(binding!!.booksList) {
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(context, 2)
             adapter = bookListAdapter
@@ -51,13 +51,13 @@ class FavoriteFragment : Fragment(), BookListAdapter.OnClickItemBookList {
 
     private fun provideFavoriteBooks() {
         favoriteViewModel.getFavoriteBookList.observe(viewLifecycleOwner) {
-            binding.loading.loadingContent.visibility = View.GONE
+            binding!!.loading.loadingContent.visibility = View.GONE
 
-            if(it.isNotEmpty()) {
-                binding.booksList.visibility = View.VISIBLE
-                bookListAdapter.setData(it)
+            if (it.isNotEmpty()) {
+                binding!!.booksList.visibility = View.VISIBLE
+                bookListAdapter?.setData(it)
             } else {
-                binding.infoFavorite.visibility = View.VISIBLE
+                binding!!.infoFavorite.visibility = View.VISIBLE
             }
         }
     }
@@ -69,5 +69,11 @@ class FavoriteFragment : Fragment(), BookListAdapter.OnClickItemBookList {
             .build()
 
         findNavController().navigate(detailBooks)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+        bookListAdapter = null
     }
 }
