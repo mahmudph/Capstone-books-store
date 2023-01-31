@@ -11,8 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import id.myone.book.R
-import id.myone.book.databinding.FragmentBookBinding
+import id.myone.capstone_books_store.book.R
+import id.myone.capstone_books_store.book.databinding.FragmentBookBinding
 import id.myone.capstone_books_store.book.di.provideModuleDependencies
 import id.myone.capstone_books_store.book.presentation.detailBook.DetailBookFragment
 import id.myone.core.adapter.BookListAdapter
@@ -21,8 +21,6 @@ import id.myone.core.domain.utils.Result
 import id.myone.core.utils.DynamicFeatureManagerUtility
 import org.koin.android.ext.android.inject
 
-val loadFeatures by lazy { provideModuleDependencies() }
-fun injectFeatures() = loadFeatures
 
 class BookFragment : Fragment(), BookListAdapter.OnClickItemBookList {
 
@@ -35,7 +33,7 @@ class BookFragment : Fragment(), BookListAdapter.OnClickItemBookList {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        injectFeatures()
+        provideModuleDependencies()
     }
 
     override fun onCreateView(

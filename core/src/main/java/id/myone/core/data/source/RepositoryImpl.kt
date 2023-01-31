@@ -48,7 +48,6 @@ class RepositoryImpl(
                 val bookEntityList = data.map { DataMapper.transformBookModelToEntity(it) }
                 localDatasource.bulkInsertBook(bookEntityList)
             }
-
         }.asFlow()
 
     override fun getFavoriteBookList(): Flow<List<Book>> {

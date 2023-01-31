@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/refresh_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="id.myone.capstone_books_store.book.presentation.detailBook.DetailBookFragment">
@@ -56,7 +55,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:paddingVertical="16dp"
-                    android:paddingStart="12dp">
+                    android:paddingStart="12dp"
+                    android:paddingEnd="0dp">
 
                     <ImageButton
                         android:layout_width="wrap_content"
@@ -70,13 +70,13 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_bold"
                         android:paddingStart="8dp"
+                        android:paddingEnd="0dp"
                         android:text="@string/back"
                         android:textColor="#fff"
                         tools:text="@string/back" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/header_container"
                     android:layout_width="match_parent"
                     android:layout_height="210dp"
                     android:orientation="horizontal"
@@ -95,13 +95,12 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:src="@drawable/book_placeholder" />
+                        tools:src="@tools:sample/avatars" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/container_header_desc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="12dp"
+                        android:layout_marginStart="12dp"
                         android:paddingVertical="12dp">
 
                         <TextView
@@ -137,7 +136,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/button_background"
-                            android:drawableLeft="@drawable/ic_baseline_favorite_border_24"
+                            android:drawableStart="@drawable/ic_baseline_favorite_border_24"
                             android:drawablePadding="6dp"
                             android:fontFamily="@font/poppins_bold"
                             android:gravity="center_vertical"
@@ -194,12 +193,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/book_sub_title">
 
                 <TableRow
-                    android:id="@+id/table_content_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/publisher_title"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_medium"
@@ -220,12 +217,10 @@
                 </TableRow>
 
                 <TableRow
-                    android:id="@+id/table_content_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/isbn10_title"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_medium"
@@ -246,12 +241,10 @@
                 </TableRow>
 
                 <TableRow
-                    android:id="@+id/table_content_3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/isbn13_title"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_medium"
@@ -272,12 +265,10 @@
                 </TableRow>
 
                 <TableRow
-                    android:id="@+id/table_content_4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/pages_title"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_medium"
@@ -298,12 +289,10 @@
                 </TableRow>
 
                 <TableRow
-                    android:id="@+id/table_content_5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/year_title"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_medium"
@@ -324,12 +313,10 @@
                 </TableRow>
 
                 <TableRow
-                    android:id="@+id/table_content_6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/ratting_title"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_medium"
@@ -350,12 +337,10 @@
                 </TableRow>
 
                 <TableRow
-                    android:id="@+id/table_content_7"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/url_title"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_medium"

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="UnusedResources">
+        <ignore path="src/main/res/values/colors.xml" />
+        <ignore path="src/main/layout/loading.xml" />
+        <ignore path="src/main/layout/information.xml" />
+        <ignore path="src/main/layout/item_grid_book.xml" />
+    </issue>
+    <issue id="IconMissingDensityFolder" severity="ignore" />
+    <issue id="Typos" severity="ignore" />
+</lint>

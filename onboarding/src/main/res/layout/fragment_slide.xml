@@ -31,7 +31,7 @@
         android:tag="slider_image"
         android:layout_width="match_parent"
         android:layout_height="350dp"
-        android:contentDescription="@string/onboarding_image"
+        android:contentDescription="@string/on_boarding_image"
         android:padding="16dp"
         app:layout_constraintBottom_toTopOf="@+id/slider_desc"
         app:layout_constraintTop_toBottomOf="@+id/slider_title"

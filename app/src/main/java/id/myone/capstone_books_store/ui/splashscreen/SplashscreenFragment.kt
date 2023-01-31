@@ -16,7 +16,6 @@ import org.koin.android.ext.android.inject
 class SplashscreenFragment : Fragment() {
     private lateinit var splashscreenBinding: FragmentSplashscreenBinding
 
-
     private val splashscreenViewModel: SplashscreenViewModel by inject()
 
     override fun onCreateView(
@@ -33,9 +32,8 @@ class SplashscreenFragment : Fragment() {
         splashscreenViewModel.checkIsPassedBoarding().observe(viewLifecycleOwner) {
             Handler(Looper.getMainLooper()).postDelayed({
                 navigateToDashboard(it)
-            }, 3000)
+            }, DelayNavigation)
         }
-
     }
 
     private fun navigateToDashboard(value: Boolean) {
@@ -47,4 +45,7 @@ class SplashscreenFragment : Fragment() {
         findNavController().navigate(dashboardNavigation)
     }
 
+    companion object {
+        const val DelayNavigation = 3000L
+    }
 }

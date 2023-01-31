@@ -38,6 +38,10 @@ android {
         jvmTarget = '1.8'
     }
 
+    lintOptions {
+        baseline file("lint.xml")
+    }
+
     buildFeatures {
         viewBinding true
     }

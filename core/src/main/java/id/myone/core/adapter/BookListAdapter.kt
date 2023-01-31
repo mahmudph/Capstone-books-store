@@ -44,10 +44,10 @@ class BookListAdapter : RecyclerView.Adapter<BookListAdapter.ViewHolder>() {
                 Glide.with(itemView.context)
                     .load(book.image)
                     .fitCenter()
-                    .into(ivItemImage)
+                    .into(imageBook)
 
-                title.text = book.title
-                price.text = book.price
+                titleBook.text = book.title
+                priceBook.text = book.price
             }
 
             itemView.setOnClickListener {

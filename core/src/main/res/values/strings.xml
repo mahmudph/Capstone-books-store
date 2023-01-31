@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="loading">Loading…</string>
-    <string name="process_failure">Process Failure.</string>
-    <string name="failed_to_connect_server">Failed connect to server, please check your internet connection then try again.</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="loading" tools:keep="@string/loading">Loading…</string>
+    <string name="process_failure" tools:keep="@string/process_failure">Process Failure.</string>
+    <string name="failed_to_connect_server" tools:keep="@string/failed_to_connect_server">Failed connect to server, please check your internet connection then try again.</string>
     <string name="placeholder_book">placeholder_book</string>
-    <string name="loading_desc">Please wait a moment</string>
+    <string name="loading_desc" tools:keep="@string/loading_desc">Please wait a moment</string>
 </resources>

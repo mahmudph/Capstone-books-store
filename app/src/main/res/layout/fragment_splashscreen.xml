@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     tools:context=".ui.splashscreen.SplashscreenFragment">
 
     <ImageView
@@ -11,7 +10,7 @@
         android:layout_height="155dp"
         android:layout_gravity="center"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/logo"
-        tools:src="@drawable/logo" />
+        android:src="@mipmap/ic_launcher"
+        tools:src="@mipmap/ic_launcher" />
 
 </FrameLayout>

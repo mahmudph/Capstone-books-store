@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="IconDensities">
+        <ignore path="**/res/drawable/book_list.png"/>
+        <ignore path="**/res/drawable/book_window.png"/>
+        <ignore path="**/res/drawable/bookstore.png"/>
+    </issue>
+</lint>

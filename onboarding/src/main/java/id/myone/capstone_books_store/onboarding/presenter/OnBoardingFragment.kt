@@ -11,16 +11,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2.ORIENTATION_HORIZONTAL
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
+import id.myone.capstone_books_store.onboarding.R
 import id.myone.capstone_books_store.onboarding.adapter.SliderAdapter
 import id.myone.capstone_books_store.onboarding.adapter.SliderData
+import id.myone.capstone_books_store.onboarding.databinding.FragmentOnBoardingBinding
 import id.myone.capstone_books_store.onboarding.di.provideModuleDependencies
-import id.myone.onboarding.R
-import id.myone.onboarding.databinding.FragmentOnBoardingBinding
 import org.koin.android.ext.android.inject
 
-
-val loadFeatures by lazy { provideModuleDependencies() }
-fun injectFeatures() = loadFeatures
 
 
 class OnBoardingFragment : Fragment(), OnClickListener {
@@ -61,7 +58,7 @@ class OnBoardingFragment : Fragment(), OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        injectFeatures()
+        provideModuleDependencies()
     }
 
     override fun onCreateView(

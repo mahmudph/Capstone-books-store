@@ -8,15 +8,13 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
-import id.myone.book.R
-import id.myone.book.databinding.FragmentDetailBookBinding
+import id.myone.capstone_books_store.book.R
+import id.myone.capstone_books_store.book.databinding.FragmentDetailBookBinding
 import id.myone.capstone_books_store.book.di.provideModuleDependencies
 import id.myone.core.domain.entity.BookDetail
 import id.myone.core.domain.utils.Result
 import org.koin.android.ext.android.inject
 
-val loadFeatures by lazy { provideModuleDependencies() }
-fun injectFeatures() = loadFeatures
 
 class DetailBookFragment : Fragment() {
 
@@ -29,7 +27,7 @@ class DetailBookFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        injectFeatures()
+        provideModuleDependencies()
     }
 
     override fun onCreateView(

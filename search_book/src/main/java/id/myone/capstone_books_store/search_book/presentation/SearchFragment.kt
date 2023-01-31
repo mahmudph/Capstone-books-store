@@ -23,9 +23,6 @@ import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 
-val loadFeatures by lazy { provideModuleDependencies() }
-fun injectFeatures() = loadFeatures
-
 class SearchFragment : Fragment(), BookListAdapter.OnClickItemBookList {
 
     private var searchBinding: FragmentSearchBinding? = null
@@ -35,7 +32,7 @@ class SearchFragment : Fragment(), BookListAdapter.OnClickItemBookList {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        injectFeatures()
+        provideModuleDependencies()
     }
 
 

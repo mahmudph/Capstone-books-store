@@ -10,7 +10,7 @@ apply from: '../share_dependencies.gradle'
 apply from: "../share_navigation_dependencies.gradle"
 
 android {
-    namespace 'id.myone.onboarding'
+    namespace 'id.myone.capstone_books_store.onboarding'
     compileSdk 33
 
     defaultConfig {
@@ -36,6 +36,10 @@ android {
     }
     buildFeatures {
         viewBinding = true
+    }
+
+    lintOptions {
+        baseline file("lint.xml")
     }
 }
 

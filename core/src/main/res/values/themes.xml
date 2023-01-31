@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.Capstonebooksstore" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Capstone_books_store" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/black</item>
         <item name="colorPrimaryVariant">@color/black_100</item>

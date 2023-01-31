@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import id.myone.capstone_books_store.onboarding.adapter.SliderData
-import id.myone.onboarding.databinding.FragmentSlideBinding
+import id.myone.capstone_books_store.onboarding.databinding.FragmentSlideBinding
 
 
 class SlideFragment : Fragment() {
@@ -23,6 +23,7 @@ class SlideFragment : Fragment() {
             sliderData = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 it.getParcelable(ARG_PARAM, SliderData::class.java)!!
             } else {
+                @Suppress("DEPRECATION")
                 it.getParcelable(ARG_PARAM)!!
             }
         }

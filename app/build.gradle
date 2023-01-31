@@ -39,6 +39,10 @@ android {
         viewBinding true
     }
 
+    lintOptions {
+        baseline file("lint.xml")
+    }
+
     dynamicFeatures = [':book', ':favorite', ':onboarding', ':search_book']
 }
 

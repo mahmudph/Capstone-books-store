@@ -7,7 +7,8 @@
     android:layout_marginHorizontal="16dp"
     android:background="@drawable/rounded_loading_border"
     android:orientation="horizontal"
-    android:padding="12dp">
+    android:padding="12dp"
+    tools:keep="@layout/loading">
 
     <ProgressBar
         android:id="@+id/loading_progress"
@@ -23,6 +24,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:orientation="vertical"
+        android:paddingEnd="0dp"
         android:paddingStart="10dp">
 
         <TextView

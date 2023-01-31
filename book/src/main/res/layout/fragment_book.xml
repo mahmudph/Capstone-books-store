@@ -54,7 +54,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/container_rv"
         android:layout_width="match_parent"
         android:layout_height="600dp"
         android:layout_marginHorizontal="16dp"

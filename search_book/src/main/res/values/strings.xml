@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="search_book">Search Book</string>
+    <string name="title_search_book">search_book</string>
     <string name="search_description">What type of book do you curious most, you can find that information in this search form field</string>
 
     <string name="data_not_found">Data Not Found</string>

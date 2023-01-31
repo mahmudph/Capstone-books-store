@@ -9,13 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import id.myone.capstone_books_store.databinding.FragmentFavoriteBinding
 import id.myone.capstone_books_store.favorite.di.provideModuleDependencies
 import id.myone.core.adapter.BookListAdapter
-import id.myone.favorite.databinding.FragmentFavoriteBinding
 import org.koin.android.ext.android.inject
 
-val loadFeatures by lazy { provideModuleDependencies() }
-fun injectFeatures() = loadFeatures
 
 class FavoriteFragment : Fragment(), BookListAdapter.OnClickItemBookList {
 
@@ -26,7 +24,7 @@ class FavoriteFragment : Fragment(), BookListAdapter.OnClickItemBookList {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        injectFeatures()
+        provideModuleDependencies()
     }
 
     override fun onCreateView(

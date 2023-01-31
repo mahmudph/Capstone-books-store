@@ -1,9 +1,9 @@
-<resources>
-    <string name="onboarding">OnBoarding module</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="on_boarding">OnBoarding module</string>
     <string name="intro_dot">●</string>
-    <string name="skip">Skip</string>
+    <string name="skip" tools:keep="@string/skip">Skip</string>
     <string name="next">Next</string>
-    <string name="onboarding_image">onboarding_image</string>
+    <string name="on_boarding_image">on_boarding_image</string>
     <string name="previous">previous</string>
 
 
@@ -16,12 +16,12 @@
     <string-array name="subtitle_intro">
         <item>Find book easily in your phone and which books is right for you</item>
         <item>Find out the price of the book which want to buy, whether affordable or not</item>
-        <item>Fead a information of the book, like year of publish, author, description or etc</item>
+        <item>Find a information of the book, like year of publish, author, description or etc</item>
     </string-array>
 
     <array name="image_intro">
-        <item>@drawable/book_list</item>
-        <item>@drawable/bookstore</item>
-        <item>@drawable/book_window</item>
+        <item>@mipmap/book_list</item>
+        <item>@mipmap/book_window</item>
+        <item>@mipmap/book_store</item>
     </array>
 </resources>

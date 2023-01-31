@@ -7,10 +7,11 @@
     android:layout_gravity="center"
     android:layout_marginHorizontal="16dp"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:keep="@layout/information">
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/title_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/process_failure"
@@ -19,7 +20,7 @@
         tools:text="@string/process_failure" />
 
     <TextView
-        android:id="@+id/sub_title"
+        android:id="@+id/sub_title_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

@@ -1,12 +1,6 @@
 <resources>
     <string name="book">Book</string>
-    <string name="book_placeholder">Book Placeholder</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search_book">Search Book</string>
-    <string name="search_description">What type of book do you curious most, you can find that information in this search form field</string>
-
-    <string name="data_not_found">Data Not Found</string>
-    <string name="data_not_found_desc">I\'m sorry we can not find books match with what you want, try with different title of the book.</string>
     <string name="add_favorite">Favorite</string>
     <string name="delete_favorite">Delete Favorite</string>
     <string name="publisher">Publisher</string>
