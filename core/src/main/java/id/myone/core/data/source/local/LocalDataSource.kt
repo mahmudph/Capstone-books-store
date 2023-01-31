@@ -35,6 +35,4 @@ class LocalDataSource(
 
     suspend fun getFavoriteBookById(favoriteBookId: String) =
         favoriteBook.getFavoriteBookById(favoriteBookId)
-
-
 }

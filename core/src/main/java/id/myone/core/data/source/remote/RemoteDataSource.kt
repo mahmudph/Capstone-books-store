@@ -22,8 +22,10 @@ class RemoteDataSource(private val apiServices: ApiServices) {
             val bookList = apiServices.getNewListBooks().books
             if (bookList.isNotEmpty()) emit(ApiResponse.Success(bookList))
             else emit(ApiResponse.Empty)
+        } catch (e: SocketException) {
+            emit(ApiResponse.Error("failed to connect service, please try again"))
         } catch (e: Exception) {
-            emit(ApiResponse.Error(e.toString()))
+            emit(ApiResponse.Error("failed to get list of books"))
         }
     }.flowOn(Dispatchers.IO)
 

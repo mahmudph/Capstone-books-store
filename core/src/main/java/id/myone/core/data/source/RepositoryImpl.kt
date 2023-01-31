@@ -102,7 +102,7 @@ class RepositoryImpl(
             else -> emit(Result.Error(defaultErrorMessage))
         }
 
-    }.flowOn(Dispatchers.IO)
+    }
 
 
     override suspend fun getIsInFavoriteBook(bookId: String): Boolean {

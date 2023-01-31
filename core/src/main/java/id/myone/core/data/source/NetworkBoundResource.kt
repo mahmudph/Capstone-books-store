@@ -15,8 +15,6 @@ abstract class NetworkBoundResource<ResultType, RequestType>(private val mExecut
 
         if (shouldFetch(dBounce)) {
 
-            emit(Result.Loading())
-
             when (val apiResponse = createCall().first()) {
 
                 is ApiResponse.Success -> {
