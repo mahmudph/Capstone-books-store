@@ -10,7 +10,7 @@ apply from: '../share_dependencies.gradle'
 apply from: "../share_navigation_dependencies.gradle"
 
 android {
-    namespace 'id.myone.capstone_books_store'
+    namespace 'id.myone.capstone_books_store.favorite'
     compileSdk 33
 
     defaultConfig {

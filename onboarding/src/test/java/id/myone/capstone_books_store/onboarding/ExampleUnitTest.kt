@@ -1,6 +1,6 @@
 
 
-package id.myone.onboarding
+package id.myone.capstone_books_store.onboarding
 
 import org.junit.Test
 
