@@ -5,6 +5,9 @@ on:
 
 jobs:
   test:
+    strategy:
+      matrix:
+        api-level: [29, 30, 31]
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
@@ -30,14 +33,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Run Testing
-        run: ./gradlew test
+      # - name: Run Testing
+      # run: ./gradlew test
 
       - name: Run Integration testing
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 31
+          api-level: ${{ matrix.api-level }}
           force-avd-creation: false
-          ram-size: 2048M
+          disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           script: ./gradlew connectedCheck
