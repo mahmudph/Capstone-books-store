@@ -7,8 +7,8 @@ jobs:
   test:
     strategy:
       matrix:
-        api-level: [30, 31]
-    runs-on: ubuntu-latest
+        api-level: [31]
+    runs-on: macos-latest
     steps:
       - name: git checkout
         uses: actions/checkout@v3
