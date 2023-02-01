@@ -39,4 +39,5 @@ jobs:
           api-level: 33
           arch: x86_64
           profile: Nexus 6
+          emulator-build: 7425822
           script: ./gradlew connectedCheck
