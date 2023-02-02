@@ -1,6 +1,7 @@
 package id.myone.capstone_books_store.search_book.presentation
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -32,9 +33,14 @@ class SearchFragment : Fragment(), BookListAdapter.OnClickItemBookList {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         provideModuleDependencies()
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        print("im here")
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,7 +55,7 @@ class SearchFragment : Fragment(), BookListAdapter.OnClickItemBookList {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchViewModel.resultBookList.observe(viewLifecycleOwner) { res ->
+        searchViewModel.searchBookListResult.observe(viewLifecycleOwner) { res ->
             when (res) {
                 is Result.Loading -> this@SearchFragment.showLoading()
                 is Result.Error -> this@SearchFragment.setVisibility(
@@ -129,8 +135,8 @@ class SearchFragment : Fragment(), BookListAdapter.OnClickItemBookList {
                     searchInformation.visibility = View.GONE
                     loading.loadingContent.visibility = View.VISIBLE
                     bookSearchList.visibility = View.GONE
-                    lifecycleScope.launch {
-                        searchViewModel.queryChannel.value = it.trim().toString()
+                    lifecycleScope.launchWhenStarted {
+                        searchViewModel.searchBook(it.trim().toString())
                     }
                 }
             }

@@ -7,7 +7,9 @@ import id.myone.core.domain.utils.Result
 import id.myone.test_utility.utility.MainDispatcherRule
 import id.myone.test_utility.utility.observeForTesting
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Rule
@@ -17,7 +19,6 @@ import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnitRunner
-
 
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
@@ -48,7 +49,7 @@ class SearchViewModelTest {
     )
 
     @Test
-    fun `should success to search and return book list related with query`() = runTest {
+    fun `Should success to search and return book list related with query`() = runTest {
 
         // assign
         `when`(searchBookUseCase(searchQuery)).thenReturn(
@@ -59,22 +60,19 @@ class SearchViewModelTest {
         )
 
         searchViewModel = SearchViewModel(searchBookUseCase)
-        // act
-        searchViewModel.queryChannel.value = searchQuery
-        val result = searchViewModel.searchBookListResult
 
-        result.observeForTesting {
-            // verify
-//            verify(searchBookUseCase).invoke(searchQuery)
+        // act
+        searchViewModel.searchBook(searchQuery)
+
+        searchViewModel.searchBookListResult.observeForTesting {
+            delay(500)
 
             // assert
-            assertTrue(result.value is Result.Success)
-            assertNotNull(result.value?.data)
+            assertTrue(searchViewModel.searchBookListResult.value is Result.Success)
+            assertNotNull(searchViewModel.searchBookListResult.value?.data)
 
-            assertTrue(result.value!!.data!!.isNotEmpty())
-            assertEquals(result.value?.data, books)
-
+            assertTrue(searchViewModel.searchBookListResult.value!!.data!!.isNotEmpty())
+            assertEquals(books, searchViewModel.searchBookListResult.value?.data)
         }
     }
-
 }
