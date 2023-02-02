@@ -54,6 +54,8 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     implementation "net.zetetic:android-database-sqlcipher:$sqlcipher"
     implementation "androidx.sqlite:sqlite-ktx:$sqllite"
+    implementation 'com.google.firebase:firebase-crashlytics:18.3.3'
+    implementation 'com.google.firebase:firebase-analytics:21.2.0'
 
     kapt "androidx.room:room-compiler:$room_version"
     androidTestImplementation "androidx.room:room-testing:$room_version"

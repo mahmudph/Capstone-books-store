@@ -12,6 +12,7 @@ import id.myone.core.data.source.remote.response.ListBooksResponse
 import id.myone.core.domain.entity.Book
 import id.myone.core.domain.utils.Result
 import id.myone.core.utils.AppExecutors
+import id.myone.core.utils.CrashAnalyticReporter
 import id.myone.core.utils.DataMapper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
@@ -26,7 +27,6 @@ import org.mockito.Mockito
 import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnitRunner
 
-
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
 class RepositoryImplTest {
@@ -38,6 +38,9 @@ class RepositoryImplTest {
     lateinit var localDataSource: LocalDataSource
 
     @Mock
+    lateinit var crashAnalyticReporter: CrashAnalyticReporter
+
+    @Mock
     lateinit var appExecutors: AppExecutors
 
     private lateinit var repositoryImpl: RepositoryImpl
@@ -47,6 +50,7 @@ class RepositoryImplTest {
         repositoryImpl = RepositoryImpl(
             localDatasource = localDataSource,
             remoteDataSource = remoteDataSource,
+            crashAnalyticReporter = crashAnalyticReporter,
             appExecutors = appExecutors,
         )
     }
@@ -146,6 +150,7 @@ class RepositoryImplTest {
             localBookList,
             localBookListAfterNetworkRequest
         )
+
         `when`(remoteDataSource.getBookList()).thenReturn(remoteBookListResponse)
         `when`(localDataSource.bulkInsertBook(anyList())).thenAnswer { }
 
@@ -230,12 +235,17 @@ class RepositoryImplTest {
     @Test
     fun `should failure when add book into favorite book list `() = runTest {
         // arrange
-        `when`(localDataSource.insertFavoriteBook(any())).thenAnswer { throw Exception() }
+        val throwable = Exception("something went wrong")
+
+        `when`(crashAnalyticReporter.recordException(throwable)).thenAnswer {  }
+        `when`(localDataSource.insertFavoriteBook(any())).thenAnswer { throw throwable }
+
         // act
         val result = repositoryImpl.insertFavoriteBook(book)
 
         // verify
         verify(localDataSource).insertFavoriteBook(DataMapper.transformBookToFavoriteBookEntity(book))
+        verify(crashAnalyticReporter).recordException(throwable)
 
         // assert
         assertTrue(result is Result.Error)
@@ -263,13 +273,18 @@ class RepositoryImplTest {
     fun `should failure to delete book from list of favorite book`() = runTest {
 
         // arrange
-        `when`(localDataSource.deleteFavoriteBook(theBookId)).thenAnswer { throw Exception() }
+
+        val throwable = Exception("failed to delete from list favorite book")
+
+        `when`(crashAnalyticReporter.recordException(throwable)).thenAnswer {  }
+        `when`(localDataSource.deleteFavoriteBook(theBookId)).thenAnswer { throw throwable }
 
         // act
         val result = repositoryImpl.deleteFavoriteBook(theBookId)
 
         // verify
         verify(localDataSource).deleteFavoriteBook(theBookId)
+        verify(crashAnalyticReporter).recordException(throwable)
 
         // assert
         assertTrue(result is Result.Error)
@@ -331,8 +346,11 @@ class RepositoryImplTest {
     fun `should failure to search book by query of the book title when no internet connection`() =
         runTest {
             // arrange
+            val throwableMessage = "no internet connection, please try again"
+
+            `when`(crashAnalyticReporter.log(throwableMessage)).thenAnswer {  }
             `when`(remoteDataSource.searchBook(searchQuery, pageNumber)).thenReturn(
-                ApiResponse.Error(errorMessage = "failed to connect service, please try again")
+                ApiResponse.Error(errorMessage = throwableMessage)
             )
 
             // act
@@ -340,11 +358,11 @@ class RepositoryImplTest {
 
             // verify
             verify(remoteDataSource).searchBook(searchQuery, pageNumber)
+            verify(crashAnalyticReporter).log(throwableMessage)
 
             // assert
             assertTrue(result is Result.Error)
-            assertEquals(result.message, "failed to connect service, please try again")
-
+            assertEquals(result.message, throwableMessage)
 
         }
 
@@ -385,8 +403,10 @@ class RepositoryImplTest {
     fun `get detail book should failure when no internet connection`() = runTest {
 
         // arrange
+        val throwableMessage = "no internet connection, please try again"
+        `when`(crashAnalyticReporter.log(throwableMessage)).thenAnswer {  }
         `when`(remoteDataSource.getDetailBook(theBookId)).thenReturn(
-            ApiResponse.Error("no internet connection please try again")
+            ApiResponse.Error(throwableMessage)
         )
 
         // act
@@ -396,6 +416,7 @@ class RepositoryImplTest {
 
             // verify
             verify(remoteDataSource).getDetailBook(theBookId)
+            verify(crashAnalyticReporter).log(throwableMessage)
 
             val loadingState = awaitItem()
             val dataState = awaitItem()
@@ -404,7 +425,7 @@ class RepositoryImplTest {
 
             assertTrue(dataState is Result.Error)
 
-            assertEquals(dataState.message, "no internet connection please try again")
+            assertEquals(dataState.message, throwableMessage)
             awaitComplete()
         }
     }
