@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import id.myone.capstone_books_store.databinding.FragmentFavoriteBinding
+import id.myone.capstone_books_store.favorite.databinding.FragmentFavoriteBinding
 import id.myone.capstone_books_store.favorite.di.provideModuleDependencies
 import id.myone.core.adapter.BookListAdapter
 import org.koin.android.ext.android.inject

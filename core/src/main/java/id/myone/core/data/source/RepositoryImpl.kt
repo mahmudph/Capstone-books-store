@@ -15,10 +15,8 @@ import id.myone.core.domain.repository.Repository
 import id.myone.core.domain.utils.Result
 import id.myone.core.utils.AppExecutors
 import id.myone.core.utils.DataMapper
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
 class RepositoryImpl(
@@ -102,7 +100,7 @@ class RepositoryImpl(
             else -> emit(Result.Error(defaultErrorMessage))
         }
 
-    }.flowOn(Dispatchers.IO)
+    }
 
 
     override suspend fun getIsInFavoriteBook(bookId: String): Boolean {
