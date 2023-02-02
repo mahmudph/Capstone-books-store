@@ -14,11 +14,15 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import id.myone.capstone_books_store.R
 import id.myone.capstone_books_store.databinding.ActivityMainBinding
+import id.myone.core.utils.CrashAnalyticReporter
+import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
     private var binding: ActivityMainBinding? = null
 
     private lateinit var broadcastReceiver: BroadcastReceiver
+
+    private val crashAnalyticReporter: CrashAnalyticReporter by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +61,8 @@ class MainActivity : AppCompatActivity() {
                     binding!!.navView.visibility = View.GONE
                 }
             }
+            crashAnalyticReporter.log(destination.navigatorName)
+            crashAnalyticReporter.setCustomLog(destination.label.toString(), destination.displayName)
         }
     }
 

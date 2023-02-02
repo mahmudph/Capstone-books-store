@@ -13,6 +13,7 @@ import id.myone.core.data.source.remote.RemoteDataSource
 import id.myone.core.data.source.remote.network.ApiConfig
 import id.myone.core.domain.repository.Repository
 import id.myone.core.utils.AppExecutors
+import id.myone.core.utils.CrashAnalyticReporter
 import id.myone.core.utils.DynamicFeatureManagerUtility
 import id.myone.core.utils.SecureStorageApp
 import net.sqlcipher.database.SQLiteDatabase
@@ -48,11 +49,11 @@ val repositoryModule = module {
     single { LocalDataSource(get(), get()) }
     single { RemoteDataSource(get()) }
     factory { AppExecutors() }
-    single<Repository> { RepositoryImpl(get(), get(), get()) }
+    single<Repository> { RepositoryImpl(get(), get(), get(), get()) }
 }
 
-
 val utilityModule = module {
+    single { CrashAnalyticReporter.createCrashAnalyticInstance() }
     single { DynamicFeatureManagerUtility.createSplitInstallManager(androidContext()) }
     factory { DynamicFeatureManagerUtility(get()) }
 }

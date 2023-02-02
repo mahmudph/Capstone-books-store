@@ -14,6 +14,7 @@ import id.myone.core.domain.entity.BookDetail
 import id.myone.core.domain.repository.Repository
 import id.myone.core.domain.utils.Result
 import id.myone.core.utils.AppExecutors
+import id.myone.core.utils.CrashAnalyticReporter
 import id.myone.core.utils.DataMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -22,6 +23,7 @@ import kotlinx.coroutines.flow.map
 class RepositoryImpl(
     private val localDatasource: LocalDataSource,
     private val remoteDataSource: RemoteDataSource,
+    private val crashAnalyticReporter: CrashAnalyticReporter,
     private val appExecutors: AppExecutors
 ) : Repository {
 
@@ -46,6 +48,10 @@ class RepositoryImpl(
                 val bookEntityList = data.map { DataMapper.transformBookModelToEntity(it) }
                 localDatasource.bulkInsertBook(bookEntityList)
             }
+
+            override fun fetchFailure(message: String) {
+                crashAnalyticReporter.log(message)
+            }
         }.asFlow()
 
     override fun getFavoriteBookList(): Flow<List<Book>> {
@@ -60,6 +66,7 @@ class RepositoryImpl(
             localDatasource.insertFavoriteBook(favoriteBookEntity)
             Result.Success("Success to add to list favorite book")
         } catch (e: Exception) {
+            crashAnalyticReporter.recordException(e)
             Result.Error("failed to add book into list favorite book")
         }
     }
@@ -69,6 +76,7 @@ class RepositoryImpl(
             localDatasource.deleteFavoriteBook(favoriteBookId)
             Result.Success("Success to delete to list favorite book")
         } catch (e: Exception) {
+            crashAnalyticReporter.recordException(e)
             Result.Error("failed to delete book into list favorite book")
         }
     }
@@ -76,7 +84,10 @@ class RepositoryImpl(
     override fun searchBooks(query: String, page: String): Flow<Result<List<Book>>> = flow {
 
         when (val response = remoteDataSource.searchBook(query, page)) {
-            is ApiResponse.Error -> emit(Result.Error(message = response.errorMessage))
+            is ApiResponse.Error -> {
+                crashAnalyticReporter.log(response.errorMessage)
+                emit(Result.Error(message = response.errorMessage))
+            }
             is ApiResponse.Empty -> emit(Result.Success(emptyList()))
             is ApiResponse.Success -> {
                 val data = DataMapper.mapBookModelToBookDomain(response.data.books)
@@ -95,11 +106,11 @@ class RepositoryImpl(
                 emit(Result.Success(data))
             }
             is ApiResponse.Error -> {
+                crashAnalyticReporter.log(response.errorMessage)
                 emit(Result.Error(response.errorMessage))
             }
             else -> emit(Result.Error(defaultErrorMessage))
         }
-
     }
 
 
