@@ -7,6 +7,7 @@ plugins {
 }
 
 apply from: "../share_dependencies.gradle"
+apply from: '../share_test_dependencies.gradle'
 apply from: "../share_navigation_dependencies.gradle"
 
 android {
@@ -45,4 +46,6 @@ dependencies {
     implementation project(path: ":app")
     implementation project(path: ':core')
     implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    testImplementation project(path: ":test-utility")
 }

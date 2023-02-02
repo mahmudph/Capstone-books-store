@@ -5,6 +5,7 @@ plugins {
 }
 
 apply from: '../share_dependencies.gradle'
+apply from: '../share_test_dependencies.gradle'
 apply from: "../share_navigation_dependencies.gradle"
 
 android {

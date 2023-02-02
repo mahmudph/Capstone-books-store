@@ -1,17 +1,12 @@
 plugins {
-    id 'com.android.dynamic-feature'
+    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-parcelize'
-    id 'kotlin-kapt'
-    id 'androidx.navigation.safeargs'
 }
 
-apply from: '../share_dependencies.gradle'
 apply from: '../share_test_dependencies.gradle'
-apply from: "../share_navigation_dependencies.gradle"
 
 android {
-    namespace 'id.myone.capstone_books_store.favorite'
+    namespace 'id.myone.mylibrary'
     compileSdk 33
 
     defaultConfig {
@@ -35,17 +30,12 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-
-    buildFeatures {
-        viewBinding true
-    }
 }
 
 dependencies {
-    implementation project(path: ':core')
-    implementation project(path: ':app')
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-
-    testImplementation project(path: ":test-utility")
-
+    //noinspection GradleDependency
+    implementation "androidx.core:core-ktx:$core_ktx_version"
+    //noinspection GradleDependency
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
 }
