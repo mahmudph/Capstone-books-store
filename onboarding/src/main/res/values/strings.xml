@@ -8,9 +8,9 @@
 
 
     <string-array name="title_intro">
-        <item>Find Books Which Right For You</item>
-        <item>Find Out The Price</item>
-        <item>Read Information Of Book</item>
+        <item>Find The Right Book Which Right For You</item>
+        <item>Find Out The Price Of The Book</item>
+        <item>Read Popular Books Information</item>
     </string-array>
 
     <string-array name="subtitle_intro">
@@ -20,8 +20,8 @@
     </string-array>
 
     <array name="image_intro">
-        <item>@mipmap/book_list</item>
-        <item>@mipmap/book_window</item>
-        <item>@mipmap/book_store</item>
+        <item>@drawable/book_list</item>
+        <item>@drawable/book_window</item>
+        <item>@drawable/book_store</item>
     </array>
 </resources>
