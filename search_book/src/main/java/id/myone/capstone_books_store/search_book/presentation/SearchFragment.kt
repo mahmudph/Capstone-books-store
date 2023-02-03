@@ -48,7 +48,7 @@ class SearchFragment : Fragment(), BookListAdapter.OnClickItemBookList {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchViewModel.searchBookListResult.observe(viewLifecycleOwner) { res ->
+        searchViewModel.getBookList.observe(viewLifecycleOwner) { res ->
             when (res) {
                 is Result.Loading -> this@SearchFragment.showLoading()
                 is Result.Error -> this@SearchFragment.setVisibility(
