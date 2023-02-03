@@ -27,7 +27,7 @@ class RepositoryImpl(
     private val appExecutors: AppExecutors
 ) : Repository {
 
-    override fun getBooksList(): Flow<Result<List<Book>>> =
+    override fun getBooksList(shouldFetch: Boolean): Flow<Result<List<Book>>> =
         object : NetworkBoundResource<List<Book>, List<BookModel>>(appExecutors) {
 
             override fun loadFromDB(): Flow<List<Book>> {
@@ -37,6 +37,7 @@ class RepositoryImpl(
             }
 
             override fun shouldFetch(data: List<Book>?): Boolean {
+                if(shouldFetch) return true
                 return data == null || data.isEmpty()
             }
 

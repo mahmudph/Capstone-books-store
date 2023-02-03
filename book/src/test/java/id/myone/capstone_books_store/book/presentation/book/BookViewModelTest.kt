@@ -48,7 +48,7 @@ class BookViewModelTest {
     fun `should get book list with success and not empty data`() = runTest {
 
         val bookListFlow = flowOf(Result.Loading(), Result.Success(booksLists))
-        `when`(getBookUseCase()).thenReturn(bookListFlow)
+        `when`(getBookUseCase(true)).thenReturn(bookListFlow)
 
         val bookViewModel = BookViewModel(getBookUseCase)
 
@@ -57,7 +57,7 @@ class BookViewModelTest {
 
         resultData.observeForTesting {
             // verify
-            verify(getBookUseCase).invoke()
+            verify(getBookUseCase).invoke(true)
             // assert
             Assert.assertTrue(resultData.value is Result.Success)
             Assert.assertEquals(resultData.value?.data, booksLists)
@@ -73,7 +73,7 @@ class BookViewModelTest {
                 Result.Error("no internet connection, please try again")
             )
 
-            `when`(getBookUseCase()).thenReturn(bookListFlow)
+            `when`(getBookUseCase(true)).thenReturn(bookListFlow)
 
             val bookViewModel = BookViewModel(getBookUseCase)
 
@@ -82,7 +82,7 @@ class BookViewModelTest {
 
             resultData.observeForTesting {
                 // verify
-                verify(getBookUseCase).invoke()
+                verify(getBookUseCase).invoke(true)
                 // assert
                 Assert.assertTrue(resultData.value is Result.Error)
                 Assert.assertEquals(

@@ -1,7 +1,6 @@
 package id.myone.capstone_books_store.search_book.presentation
 
 import android.annotation.SuppressLint
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -20,7 +19,6 @@ import id.myone.capstone_books_store.search_book.databinding.FragmentSearchBindi
 import id.myone.capstone_books_store.search_book.di.provideModuleDependencies
 import id.myone.core.adapter.BookListAdapter
 import id.myone.core.domain.utils.Result
-import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 
@@ -35,11 +33,6 @@ class SearchFragment : Fragment(), BookListAdapter.OnClickItemBookList {
         super.onCreate(savedInstanceState)
 
         provideModuleDependencies()
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        print("im here")
     }
 
     override fun onCreateView(
@@ -66,7 +59,7 @@ class SearchFragment : Fragment(), BookListAdapter.OnClickItemBookList {
                     if (res.data!!.isEmpty()) {
                         searchBinding!!.apply {
                             searchInformation.visibility = View.VISIBLE
-                            loading.loadingContent.visibility = View.GONE
+                            loading.visibility = View.GONE
                             bookSearchList.visibility = View.GONE
 
                             title.text = getString(R.string.data_not_found)
@@ -105,7 +98,7 @@ class SearchFragment : Fragment(), BookListAdapter.OnClickItemBookList {
     }
 
     private fun showLoading() {
-        searchBinding!!.loading.loadingContent.visibility = View.VISIBLE
+        searchBinding!!.loading.visibility = View.VISIBLE
     }
 
     private fun provideBookListAdapter() {
@@ -121,7 +114,7 @@ class SearchFragment : Fragment(), BookListAdapter.OnClickItemBookList {
         searchBinding?.also {
             it.info.information.visibility = showError
             it.bookSearchList.visibility = showBookResult
-            it.loading.loadingContent.visibility = View.GONE
+            it.loading.visibility = View.GONE
             it.searchInformation.visibility = View.GONE
         }
     }
@@ -133,7 +126,7 @@ class SearchFragment : Fragment(), BookListAdapter.OnClickItemBookList {
             if (searchField.text.trim().isNotEmpty()) {
                 searchField.text.let {
                     searchInformation.visibility = View.GONE
-                    loading.loadingContent.visibility = View.VISIBLE
+                    loading.visibility = View.VISIBLE
                     bookSearchList.visibility = View.GONE
                     lifecycleScope.launchWhenStarted {
                         searchViewModel.searchBook(it.trim().toString())

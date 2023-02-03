@@ -8,6 +8,7 @@ package id.myone.capstone_books_store.book.di
 import id.myone.capstone_books_store.book.presentation.book.BookViewModel
 import id.myone.capstone_books_store.book.presentation.detailBook.DetailBookViewModel
 import id.myone.capstone_books_store.book.domain.usecase.*
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
 import org.koin.dsl.module
 
@@ -20,8 +21,8 @@ val bookUseCaseModel = module {
 }
 
 val bookViewModelModule = module {
-    single { BookViewModel(get()) }
-    single { DetailBookViewModel(get(), get(), get()) }
+    viewModel { BookViewModel(get()) }
+    viewModel { DetailBookViewModel(get(), get(), get()) }
 }
 
 

@@ -155,7 +155,7 @@ class RepositoryImplTest {
         `when`(localDataSource.bulkInsertBook(anyList())).thenAnswer { }
 
         // act
-        val dataBookList = repositoryImpl.getBooksList()
+        val dataBookList = repositoryImpl.getBooksList(true)
 
         dataBookList.test {
 
@@ -182,7 +182,7 @@ class RepositoryImplTest {
         `when`(localDataSource.getBooks()).thenReturn(localBookList)
 
         // act
-        repositoryImpl.getBooksList().test {
+        repositoryImpl.getBooksList(false).test {
 
             // verify
             verify(localDataSource, times(2)).getBooks()

@@ -27,7 +27,7 @@
         android:gravity="center"
         android:textAlignment="center"
         android:textSize="14sp"
-        android:textColor="#000"
+        android:textColor="@color/black"
         android:textStyle="normal"
         android:text="@string/failed_to_connect_server"
         tools:text="@string/failed_to_connect_server" />

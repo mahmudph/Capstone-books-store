@@ -11,7 +11,7 @@ import id.myone.core.domain.utils.Result
 import kotlinx.coroutines.flow.Flow
 
 class GetBookListUseCase(private val repository: Repository) {
-    operator fun invoke(): Flow<Result<List<Book>>> {
-        return repository.getBooksList()
+    operator fun invoke(shouldFetch: Boolean): Flow<Result<List<Book>>> {
+        return repository.getBooksList(shouldFetch)
     }
 }

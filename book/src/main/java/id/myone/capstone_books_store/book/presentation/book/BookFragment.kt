@@ -2,6 +2,8 @@ package id.myone.capstone_books_store.book.presentation.book
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,16 +22,18 @@ import id.myone.core.domain.entity.Book
 import id.myone.core.domain.utils.Result
 import id.myone.core.utils.DynamicFeatureManagerUtility
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class BookFragment : Fragment(), BookListAdapter.OnClickItemBookList {
 
-    private val bookViewModel: BookViewModel by inject()
+    private val bookViewModel: BookViewModel by viewModel()
     private val moduleUtility: DynamicFeatureManagerUtility by inject()
 
     private var fragmentBookBinding: FragmentBookBinding? = null
     private var bookListAdapter: BookListAdapter? = null
 
+    private var hasLoadData = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +44,6 @@ class BookFragment : Fragment(), BookListAdapter.OnClickItemBookList {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         bookListAdapter = BookListAdapter()
         bookListAdapter?.setOnClickListener(this)
         fragmentBookBinding = FragmentBookBinding.inflate(inflater, container, false)
@@ -50,18 +53,13 @@ class BookFragment : Fragment(), BookListAdapter.OnClickItemBookList {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        this.requestDataFromServer()
-
         fragmentBookBinding?.also {
             it.booksList.setHasFixedSize(true)
             it.booksList.layoutManager = GridLayoutManager(context, 2)
             it.booksList.adapter = bookListAdapter
 
-
-
             it.refreshBookList.setOnRefreshListener {
-                this.requestDataFromServer()
+                bookViewModel.getBookList(true)
             }
 
             it.searchBookPanel.setOnTouchListener { _, _ ->
@@ -91,39 +89,50 @@ class BookFragment : Fragment(), BookListAdapter.OnClickItemBookList {
                 return@setOnTouchListener true
             }
         }
-
-
+        this.requestDataFromServer()
     }
 
     private fun requestDataFromServer() {
         bookViewModel.bookListData.observe(viewLifecycleOwner) {
             when (it) {
-                is Result.Loading -> showLoading()
+                is Result.Loading -> {
+                    showLoading()
+                }
                 is Result.Error -> showOnError()
-                is Result.Success -> showOnSuccess(it.data!!)
+                is Result.Success -> {
+                    it.data?.let { data ->
+                        hasLoadData = true
+                        showOnSuccess(data)
+                    }
+                }
+                else -> {}
             }
         }
     }
 
     private fun showLoading() {
-        fragmentBookBinding!!.loading.loadingContent.visibility = View.VISIBLE
+        fragmentBookBinding?.refreshBookList?.visibility = View.GONE
+        fragmentBookBinding?.loading?.visibility = View.VISIBLE
     }
 
     private fun showOnSuccess(bookList: List<Book>) {
-        bookListAdapter?.setData(bookList)
-
-        fragmentBookBinding?.also {
-            it.refreshBookList.isRefreshing = false
-            it.booksList.visibility = View.VISIBLE
-            it.loading.loadingContent.visibility = View.GONE
-        }
+        val delay = if (!hasLoadData) 1200L  else  0L
+        Handler(Looper.getMainLooper()).postDelayed({
+            bookListAdapter?.setData(bookList)
+            fragmentBookBinding?.also {
+                it.refreshBookList.isRefreshing = false
+                it.refreshBookList.visibility = View.VISIBLE
+                it.booksList.visibility = View.VISIBLE
+                it.loading.visibility = View.GONE
+            }
+        }, delay)
     }
 
     private fun showOnError() {
         fragmentBookBinding?.also {
             it.booksList.visibility = View.GONE
             it.info.information.visibility = View.VISIBLE
-            it.loading.loadingContent.visibility = View.GONE
+            it.loading.visibility = View.GONE
         }
     }
 

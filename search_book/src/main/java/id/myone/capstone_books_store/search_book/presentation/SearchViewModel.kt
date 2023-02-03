@@ -7,9 +7,7 @@ package id.myone.capstone_books_store.search_book.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
 import id.myone.capstone_books_store.search_book.domain.usecase.SearchBookUseCase
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
