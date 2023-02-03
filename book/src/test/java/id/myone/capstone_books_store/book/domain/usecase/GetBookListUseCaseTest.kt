@@ -47,14 +47,14 @@ class GetBookListUseCaseTest {
 
             // assign
             val expectedFlow = flowOf(Result.Loading(), Result.Success(booksLists))
-            `when`(repository.getBooksList()).thenReturn(expectedFlow)
+            `when`(repository.getBooksList(true)).thenReturn(expectedFlow)
 
             // act
-            val listBooksResult = getBookListUseCase()
+            val listBooksResult = getBookListUseCase(true)
 
             listBooksResult.test {
                 // verify
-                verify(repository).getBooksList()
+                verify(repository).getBooksList(true)
 
                 val loadingState = awaitItem()
                 val dataState = awaitItem()
@@ -83,14 +83,14 @@ class GetBookListUseCaseTest {
                 )
             )
 
-            `when`(repository.getBooksList()).thenReturn(expectedFlow)
+            `when`(repository.getBooksList(true)).thenReturn(expectedFlow)
 
             // act
-            val listBooksResult = getBookListUseCase()
+            val listBooksResult = getBookListUseCase(true)
 
             listBooksResult.test {
                 // verify
-                verify(repository).getBooksList()
+                verify(repository).getBooksList(true)
 
                 val loadingState = awaitItem()
                 val dataState = awaitItem()

@@ -6,6 +6,7 @@ import id.myone.capstone_books_store.favorite.domain.usecase.GetFavoriteBookUseC
 import id.myone.core.domain.entity.Book
 import id.myone.test_utility.utility.MainDispatcherRule
 import id.myone.test_utility.utility.getOrAwaitValue
+import id.myone.test_utility.utility.observeForTesting
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
@@ -52,15 +53,20 @@ class FavoriteViewModelTest {
         `when`(getFavoriteBookUseCase()).thenReturn(expectedFavoriteBookResultList)
         favoriteViewModel = FavoriteViewModel(getFavoriteBookUseCase)
         // act
-        val favoriteBookResult = favoriteViewModel.getFavoriteBookList.getOrAwaitValue()
-        // verify
-        verify(getFavoriteBookUseCase).invoke()
-        // assert
-        Assert.assertTrue(favoriteBookResult.isNotEmpty())
-        Assert.assertEquals(favoriteBookResult.size, favoriteBooks.size)
-        Assert.assertEquals(favoriteBookResult.first().id, favoriteBooks.first().id)
-        Assert.assertEquals(favoriteBookResult.first().title, favoriteBooks.first().title)
+        val favoriteBookResult = favoriteViewModel.getFavoriteBookList
 
+        favoriteBookResult.observeForTesting {
+            // verify
+            verify(getFavoriteBookUseCase).invoke()
+            val result = favoriteBookResult.value
+            // assert
+            Assert.assertTrue(result is id.myone.core.domain.utils.Result.Success)
+            Assert.assertNotNull(result?.data)
+            Assert.assertTrue(result!!.data!!.isNotEmpty())
+            Assert.assertEquals(result.data!!.size, favoriteBooks.size)
+            Assert.assertEquals(result.data!!.first().id, favoriteBooks.first().id)
+            Assert.assertEquals(result.data!!.first().title, favoriteBooks.first().title)
+        }
     }
 
     @Test
@@ -71,10 +77,15 @@ class FavoriteViewModelTest {
         `when`(getFavoriteBookUseCase()).thenReturn(expectedFavoriteBookResultList)
         favoriteViewModel = FavoriteViewModel(getFavoriteBookUseCase)
         // act
-        val favoriteBookResult = favoriteViewModel.getFavoriteBookList.getOrAwaitValue()
-        // verify
-        verify(getFavoriteBookUseCase).invoke()
-        // assert
-        Assert.assertTrue(favoriteBookResult.isEmpty())
+        val favoriteBookResult = favoriteViewModel.getFavoriteBookList
+
+        favoriteBookResult.observeForTesting {
+            // verify
+            verify(getFavoriteBookUseCase).invoke()
+            // assert
+            Assert.assertTrue(favoriteBookResult.value is id.myone.core.domain.utils.Result.Success)
+            Assert.assertTrue(favoriteBookResult.value!!.data!!.isEmpty())
+        }
+
     }
 }

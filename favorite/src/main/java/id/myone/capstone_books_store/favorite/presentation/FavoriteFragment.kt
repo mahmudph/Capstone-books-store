@@ -1,6 +1,8 @@
 package id.myone.capstone_books_store.favorite.presentation
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,15 +14,19 @@ import androidx.recyclerview.widget.GridLayoutManager
 import id.myone.capstone_books_store.favorite.databinding.FragmentFavoriteBinding
 import id.myone.capstone_books_store.favorite.di.provideModuleDependencies
 import id.myone.core.adapter.BookListAdapter
-import org.koin.android.ext.android.inject
+import id.myone.core.domain.entity.Book
+import id.myone.core.domain.utils.Result
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class FavoriteFragment : Fragment(), BookListAdapter.OnClickItemBookList {
 
     private var binding: FragmentFavoriteBinding? = null
-    private val favoriteViewModel: FavoriteViewModel by inject()
+    private val favoriteViewModel: FavoriteViewModel by viewModel()
 
     private var bookListAdapter: BookListAdapter? = null
+
+    private var hasLoadData: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,19 +51,41 @@ class FavoriteFragment : Fragment(), BookListAdapter.OnClickItemBookList {
         }
 
         this.provideFavoriteBooks()
+
     }
 
     private fun provideFavoriteBooks() {
         favoriteViewModel.getFavoriteBookList.observe(viewLifecycleOwner) {
-            binding!!.loading.loadingContent.visibility = View.GONE
-
-            if (it.isNotEmpty()) {
-                binding!!.booksList.visibility = View.VISIBLE
-                bookListAdapter?.setData(it)
-            } else {
-                binding!!.infoFavorite.visibility = View.VISIBLE
+            when (it) {
+                is Result.Loading -> {
+                    binding?.loading?.visibility = View.VISIBLE
+                }
+                is Result.Success -> {
+                    if (it.data!!.isNotEmpty()) {
+                        if (!hasLoadData) {
+                            hasLoadData = true
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                this.handleOnSuccessLoadData(it.data!!)
+                            }, 500)
+                        } else {
+                            this.handleOnSuccessLoadData(it.data!!)
+                        }
+                    } else {
+                        binding?.loading?.visibility = View.GONE
+                        binding!!.infoFavorite.visibility = View.VISIBLE
+                    }
+                }
+                else -> {
+                    binding!!.infoFavorite.visibility = View.VISIBLE
+                }
             }
         }
+    }
+
+    private fun handleOnSuccessLoadData(data: List<Book>) {
+        binding?.loading?.visibility = View.GONE
+        binding!!.booksList.visibility = View.VISIBLE
+        bookListAdapter?.setData(data)
     }
 
     override fun onPressItem(bookId: String) {

@@ -5,4 +5,6 @@
     <string name="failed_to_connect_server" tools:keep="@string/failed_to_connect_server">Failed connect to server, please check your internet connection then try again.</string>
     <string name="placeholder_book">placeholder_book</string>
     <string name="loading_desc" tools:keep="@string/loading_desc">Please wait a moment</string>
+    <string name="price_placeholder">$100.0</string>
+    <string name="title_placeholder">Book title placeholder</string>
 </resources>

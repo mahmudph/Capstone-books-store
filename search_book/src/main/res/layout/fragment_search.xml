@@ -58,18 +58,14 @@
             tools:listitem="@layout/item_grid_book" />
     </LinearLayout>
 
-    <include
+    <LinearLayout
         android:id="@+id/loading"
-        layout="@layout/loading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginHorizontal="16dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_content" />
+        app:layout_constraintTop_toBottomOf="@id/search_content">
+        <include layout="@layout/book_list_shimmer_placeholder" />
+    </LinearLayout>
 
     <include
         android:id="@+id/info"

@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 
 
 interface Repository {
-    fun getBooksList(): Flow<Result<List<Book>>>
+    fun getBooksList(shouldFetch: Boolean): Flow<Result<List<Book>>>
     fun getDetailBook(id: String): Flow<Result<BookDetail>>
     fun searchBooks(query: String, page: String): Flow<Result<List<Book>>>
     suspend fun getBookById(bookId: String): Book?
