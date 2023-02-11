@@ -40,7 +40,9 @@
         android:id="@+id/search_book_graph"
         app:graphPackage="id.myone.capstone_books_store.search_book"
         app:graphResName="search_book_graph"
-        app:moduleName="search_book" />
+        app:moduleName="search_book">
+        <deepLink app:uri="books-app://search"/>
+    </include-dynamic>
 
     <include-dynamic
         android:id="@+id/onboarding"
